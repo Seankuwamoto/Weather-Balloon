@@ -14,38 +14,24 @@
 *
 *   2. Down below, add a new pair of curly braces to the list of files. In it, add the name of your file,
 *   a title (it can be whatever you want), and fill in the info for your spreadsheet. Make sure to list
-*   which column you data is in. For example, if my spreadsheet was like this: 'time,lat,long,alt', then
+*   which column you data is in. For example, if my spreadsheet was like this: 'time,lat,long,alt' and nothing else, then
 *   my spreadsheet data info might look like this:
 *   
 *   spreadsheet_data_info: {
-*       time: {
-*           label: "Time",
-*           range: ["13:39:11:0", "17:20:00:0"],
-*           units: "(UTC)",
-*           column_in_spreadsheet: 0
-*       },
-*       latitude: {
-*           label: "Latitude",
-*           range: [3910, 3940],
-*           units: "none",
-*           column_in_spreadsheet: 1
-*       },
-*       longitude: {
-*           label: "Longitude",
-*           range: [12130, 12160],
-*           units: "none",
-*           column_in_spreadsheet: 2
-*       },
-*       altitude: {
-*           label: "Altitude",
-*           range: [0, 32200],
-*           units: "(m)",
-*           column_in_spreadsheet: 3
-*       }, 
+*       time: 0,
+*       latitude: 1,
+*       longitude: 2,
+*       altitude: 3
 *   }
-*
+*   
 *   Note how the column numbers start from 0. The time column is first, and so you put a 0 for it. Latitude it second, and so you put a 1 for it.
 *   If you put your data in starting by counting from 1 into this file, everything will be off.
+*
+*   The list of possible terms you can use is:
+*       date, time, ms_since_last_cycle, fixed, latitude, longitude, altitude, speed, angle, 
+*       satellites, avg_thermistor, thermistor_c, gyro_x, gyro_y, gyro_z, accel_x, accel_y,
+*       accel_z, mag_x, mag_y, mag_z, live_cam, cam_data
+*   Do not use terms beyond this or make up your own names. These names are specific, and making up your own will not do anything.
 *   
 *   3. Once all that is filled out, run the command "node dataAnalysis.js" in the terminal and then visit the
 *   url http://127.0.0.1:3000/ on the same computer. Enjoy!
@@ -57,111 +43,197 @@ const FILE_LIST = [
     // you can add multiple files in here if you have multiple different datasets you want to look through. In this example there are four.
     {
         // Put the name of your csv file in here. Make sure to include the ".csv" at the end.
-        filename: "DAWN.CSV",
+        filename: "MIDNIGHT.CSV",
         // Put the title of your project here. It can be whatever you want.
         title: "Midnight Balloon Data - Sean Kuwamoto & Jaiden Grimminck",
-        // Put the date in here.
-        date: "6/7/23",
         spreadsheet_info: {
-            time: {
-                label: "Time",
-                range: ["13:39:11:0", "17:20:00:0"],
-                units: "(UTC)",
-                column_in_spreadsheet: 1
-            },
-            ms_since_last_cycle: {
-                label: "Time since last cycle",
-                range: [1000, 1050],
-                units: "(ms)",
-                column_in_spreadsheet: 2
-            },
-            latitude: {
-                label: "Latitude",
-                range: [3910, 3940],
-                units: "none",
-                column_in_spreadsheet: 0
-            },
-            longitude: {
-                label: "Longitude",
-                range: [12130, 12160],
-                units: "none",
-                column_in_spreadsheet: 0
-            },
-            altitude: {
-                label: "Altitude",
-                range: [0, 32200],
-                units: "(m)",
-                column_in_spreadsheet: 0
-            }, 
-            speed: {
-                label: "Speed",
-                range: [0, 40],
-                units: "(km/h)",
-                column_in_spreadsheet: 0
-            },
-            satellites: {
-                label: "Number of Satellites",
-                range: [0, 20],
-                units: "none",
-                column_in_spreadsheet: 0
-            },
-            avg_thermistor: {
-                label: "Average Thermistor Reading",
-                range: [400, 1100],
-                units: "(V)",
-            },
-            thermistor_c: {
-                label: "Temperature",
-                range: [-60 , 25],
-                units: "(ºC)",
-                column_in_spreadsheet: 0
-            },
-            gyro_xyz: {
-                label: "Gyroscope",
-                range: [-0.3, 0.3],
-                units: "(º/s)",
-                column_in_spreadsheet: 0
-            },
-            accel_xyz: {
-                label: "Accelerometer",
-                range: [-1, 1],
-                units: "(m/s²)",
-                column_in_spreadsheet: 0
-            },
-            mag_xyz: {
-                label: "Magnetometer",
-                range: [-50, 50],
-                units: "(uT)",
-                column_in_spreadsheet: 0
-            },
-            pressure: {
-                label: "Pressure",
-                range: [0, 1200],
-                units: "(hPa)",
-                column_in_spreadsheet: 0
-            },
-            humidity: {
-                label: "Relative humidity",
-                range: [0, 100],
-                units: "(%)",
-                column_in_spreadsheet: 0
-            },
-            upward_speed: {
-                label: "Upward speed",
-                range: [-15, 5],
-                units: "(m/s)",
-            },
-            avg_upward_speed: {
-                label: "Average upward speed",
-                range: [-15, 5],
-                units: "(m/s)"
-            },
-            // This one is calculated automatically, no need to input a column number.
-            frame: {
-                label: "Current frame",
-                data_range: [0, 16500],
-                units: "none",
-            },
+            date: 0,    
+            time: 1,
+            ms_since_last_cycle: 2,
+            fixed: 3,
+            latitude: 4,
+            longitude: 5,
+            altitude: 6, 
+            speed: 7,
+            angle: 8,
+            satellites: 9,
+            avg_thermistor: 10, // Avg thermistor voltage readings
+            thermistor_c: 11,
+            gyro_x: 12,     // Gyroscope
+            gyro_y: 13,
+            gyro_z: 14,
+            accel_x: 15,    // Accelerometer
+            accel_y: 16,
+            accel_z: 17,
+            mag_x: 18,      // Magnometer
+            mag_y: 19,
+            mag_z: 20,
+            live_cam: 21,   // Whether or not the IR camera is live
+            cam_data: 22,   // The first column of the camera data
+        }
+    },
+    {
+        filename: "DAWN.CSV",
+        title: "Dawn Balloon Data - Baker Simmons & Milo Sperry",
+        spreadsheet_info: {
+            date: 0,    
+            time: 1,
+            ms_since_last_cycle: 2,
+            fixed: 3,
+            latitude: 4,
+            longitude: 5,
+            altitude: 6, 
+            speed: 7,
+            angle: 8,
+            satellites: 9,
+            gyro_x: 10,     // Gyroscope
+            gyro_y: 11,
+            gyro_z: 12,
+            accel_x: 13,    // Accelerometer
+            accel_y: 14,
+            accel_z: 15,
+            mag_x: 16,      // Magnometer
+            mag_y: 17,
+            mag_z: 18,      
+            live_cam: 19,   // Whether or not the IR camera is live
+            cam_data: 20,   // The first column of the camera data
+        }
+    },
+    {
+        filename: "DUSK_CORRECTED.csv",
+        title: "Dusk Balloon Data - Kai Spada & Evan Kuo",
+        spreadsheet_info: {
+            time: 0,
+            latitude: 1,
+            longitude: 2,
+            altitude: 3, 
+            speed: 4,
+            angle: 5,
+            satellites: 6,
+            avg_thermistor: 7, // Avg thermistor voltage readings
+            thermistor_c: 8,    
+            pressure: 10,   // Because DAWN.CSV doesn't have pressure or humidity sensors the column is -1.
+            humidity: 11,
+            cam_data: 13,   // The first column of the camera data
+        }
+    },
+    {
+        filename: "SAM.CSV",
+        title: "Balloon Data - Sam Barron",
+        spreadsheet_info: {
+            date: 0,
+            time: 1,
+            latitude: 2,
+            longitude: 3,
+            altitude: 4,
+            speed: 5,
+            angle: 6,
+            satellites: 7,
+            cam_data: 8,
         }
     }
 ]
+
+/*
+*   Down here are extra settings
+*   They control how your data is graphed
+*   The label and units are automatically placed on the graph
+*   The range is the start and end points for where you want it to graph
+*/
+const EXTRA_SETTINGS = {
+    time: {
+        label: "Time",
+        range: ["13:39:11:0", "17:20:00:0"],
+        units: "(UTC)",
+    },
+    ms_since_last_cycle: {
+        label: "Time since last cycle",
+        range: [1000, 1050],
+        units: "(ms)",
+    },
+    fixed: {
+        label: "Satellites fixed",
+        range: [-1.5, 1.5],
+        units: "none",
+    },
+    latitude: {
+        label: "Latitude",
+        range: [3910, 3940],
+        units: "none",
+    },
+    longitude: {
+        label: "Longitude",
+        range: [12130, 12160],
+        units: "none",
+    },
+    altitude: {
+        label: "Altitude",
+        range: [0, 32200],
+        units: "(m)",
+    }, 
+    speed: {
+        label: "Speed",
+        range: [0, 40],
+        units: "(km/h)",
+    },
+    angle: {
+        label: "Angle",
+        range: [0, 360],
+        units: "º",
+    },
+    satellites: {
+        label: "Number of Satellites",
+        range: [0, 20],
+        units: "none",
+    },
+    avg_thermistor: {
+        label: "Average Thermistor Reading",
+        range: [400, 1100],
+        units: "(V)",
+    },
+    thermistor_c: {
+        label: "Temperature",
+        range: [-60 , 25],
+        units: "(ºC)",
+    },
+    gyro_xyz: {
+        label: "Gyroscope",
+        range: [-0.3, 0.3],
+        units: "(º/s)",
+    },
+    accel_xyz: {
+        label: "Accelerometer",
+        range: [-1, 1],
+        units: "(m/s²)",
+    },
+    mag_xyz: {
+        label: "Magnetometer",
+        range: [-50, 50],
+        units: "(uT)",
+    },
+    pressure: {
+        label: "Pressure",
+        range: [0, 1200],
+        units: "(hPa)",
+    },
+    humidity: {
+        label: "Relative humidity",
+        range: [0, 100],
+        units: "(%)",
+    },
+    upward_speed: {
+        label: "Upward speed",
+        range: [-15, 5],
+        units: "(m/s)",
+    },
+    avg_upward_speed: {
+        label: "Average upward speed",
+        range: [-15, 5],
+        units: "(m/s)"
+    },
+    frame: {
+        label: "Current frame",
+        range: [0, 16500],
+        units: "none",
+    },
+}
