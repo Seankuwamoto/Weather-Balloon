@@ -7,6 +7,11 @@ const NUM_ROWS = 0;
 // How many samples for the average upward speed
 const UPWARD_SPEED_SAMPLES = 100;
 
+const fileInfo = require('./fileInfo.js');
+const FILE_LIST = fileInfo.FILE_LIST;
+const EXTRA_SETTINGS = fileInfo.EXTRA_SETTINGS;
+const RANGE_OVERRIDES = fileInfo.RANGE_OVERRIDES;
+
 /*
 Whose data to use.
 SEANJAIDEN: Sean and Jaiden's data -- Midnight balloon
@@ -26,6 +31,7 @@ BAKERMILO: Baker and Milo's data -- Dawn balloon
     - Basic gps sensor data. GPS cuts out at
 
 */
+
 const MODE = "KAIEVAN";
 
 // Libraries
@@ -54,10 +60,6 @@ const extraColors = colormap({
 
 // Cached data
 let cachedData = {
-    SEANJAIDEN: [],
-    KAIEVAN: [],
-    BAKERMILO: [],
-    SAM: [],
 }
 // Socket.io
 const io = new Server(server);
@@ -99,7 +101,6 @@ server.listen(3000, () => {
     console.log('listening on *:3000');
 });
 
-// Reading data
 
 
 // Processing data

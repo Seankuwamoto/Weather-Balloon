@@ -2,6 +2,8 @@
 *   Created by Sean Kuwamoto and Jaiden Grimminck. Bay School class of 2025.
 *   
 *   Welcome! This is the settings file. This is where you will setup your files. 
+*   Everything you need can be customized from here, and this file is meant to be modified by whoever
+*   is using this program. Please do not modify any other files.
 *   
 *
 *   FOLLOW THESE INSTRUCTIONS TO ADD YOUR OWN DATA
@@ -34,6 +36,8 @@
 *   
 *   3. Once all that is filled out, run the command "node dataAnalysis.js" in the terminal and then visit the
 *   url http://127.0.0.1:3000/ on the same computer. Enjoy!
+*
+*   4. For further customization, try playing around with EXTRA_SETTINGS and RANGE_OVERRIDES! Contact me with any questions.
 *
 *   If anything breaks, please contact me at skuwamoto25@bayschoolsf.org. 
 *   If it's past May 2026, contact me at sean.kuwamoto@gmail.com.
@@ -235,4 +239,28 @@ const EXTRA_SETTINGS = {
         range: [0, 16500],
         units: "none",
     },
+}
+
+// If you would like specific ranges for specific csv files, you can override them here:
+const RANGE_OVERRIDES = [
+    { 
+        filename: "DAWN.csv",
+        overrides: {
+            time: ["13:39:11:0", "17:20:00:0"],
+            avg_thermistor: [300, 1000],
+        }
+    },
+    { 
+        filename: "SAM.csv",
+        overrides: {
+            time: ["12:39:11:0", "14:20:00:0"],
+            avg_thermistor: [300, 4000],
+        }
+    },
+    
+]
+module.exports = {
+    FILE_LIST,
+    EXTRA_SETTINGS,
+    RANGE_OVERRIDES,
 }
