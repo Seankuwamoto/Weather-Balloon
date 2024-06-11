@@ -5,10 +5,9 @@
 *   
 *
 *   FOLLOW THESE INSTRUCTIONS TO ADD YOUR OWN DATA
-*   File setup instructions:
 *
-*   1. Put your file in the data folder. It should be a csv file, and the first line should be a title,
-*   the second line should be a list of things you're measuring (e.g.: time,lat,long,...), and the third
+*   1. Put your csv file in the folder called data. It should be a csv file, and the first row should be a title,
+*   the second row should be a list of things you're measuring (e.g.: time,lat,long,...), and the third
 *   line should be where the data collection begins. 
 *   WARNING: If data collection does not begin on the third row, the program may not work.
 *

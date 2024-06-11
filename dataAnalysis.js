@@ -309,6 +309,7 @@ function getData(mode) {
         if (i % 2000 == 0) console.log("Loading: " + Math.round(i / DATA.length * 1000) / 10 + "%");
     }
     console.log("Sucessfully cached " + mode + " data.")
+    console.log("\x1b[32m" + "Loading complete! Please visit\x1b[34m http://127.0.0.1:3000/\x1b[32m to see your website." + "\x1b[0m")
     cachedData[mode] = data;
     return data;
 }
