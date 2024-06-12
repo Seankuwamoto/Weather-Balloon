@@ -13,6 +13,7 @@ const settings = {
     gridlines: true,
     absoluteTemperature: false,
 }
+// Fix this in a second.
 const dataInfo = {
     frame: {
         label: "Current frame",
@@ -156,32 +157,7 @@ const hitboxes = {
     avg_upward_speed: [10, 363, 210, 22],
     graph: [270, 120, 340, 310],
 }
-const keyMoments = {
-    SEANJAIDEN: [
-        {
-            frame: 5543,
-            caption: "Launch"
-        },
-    ],
-    KAIEVAN: [
-        {
-            frame: 5543,
-            caption: "Launch"
-        },
-    ],
-    BAKERMILO: [
-        {
-            frame: 5543,
-            caption: "Launch"
-        },
-    ]
-}
-let cachedData = {
-    SEANJAIDEN: [],
-    KAIEVAN: [],
-    BAKERMILO: [],
-    SAM: [],
-}
+let cachedData = [];
 let DATA = [];
 let values = [];
 let colors = [];
@@ -203,6 +179,7 @@ let index = 10;
 let playPause = false;
 let p5Time = 0;
 let mostRecentClick = {clickType: "none", p5Time: 0};
+
 for (let i = 0; i < 32; i++) {
     for (let j = 0; j < 24; j++) {
         values.push('#000000');
@@ -232,8 +209,6 @@ let camera = function( sketch ) {
             for (let i = 0; i < 32; i++) {
                 for (let j = 0; j < 24; j++) {
                     if (typeof values[32*j + i] !== "string") {
-                        console.log(values);
-                        console.log(values[32*j+i]);
                         throw new Error();
                     }
                     sketch.fill(values[32*j + i]);
@@ -363,6 +338,7 @@ let info = function( sketch ) {
         let hovered;
         for (let [key, value] of Object.entries(hitboxes)) {
             if (!dataLoaded) continue;
+            if (!cachedData[currentMode].available.includes(key)) continue;
             if (detectHover(sketch, value) && DATA[index][key] !== "N/A") {
                 hovered = key;
                 // change cursor
@@ -385,7 +361,7 @@ let info = function( sketch ) {
         // frameCount
         sketch.textAlign(sketch.CENTER, sketch.TOP);
         sketch.fill(hovered==="frame"?settings.alternateColor:settings.textColor);
-        sketch.text("current frame: " + (dataLoaded?index:"Loading..."), 320, 10);
+        sketch.text("current frame: " + (dataLoaded?index:"..."), 320, 10);
 
         
 
@@ -393,21 +369,47 @@ let info = function( sketch ) {
         function makeText(type, x, y) {
             sketch.fill(hovered===type?settings.alternateColor:settings.textColor);
             let units = (!dataInfo[type]||dataInfo[type].units==="none")?"":" " + dataInfo[type].units;
-            sketch.text(type + ": " + (dataLoaded?DATA[index][type] + units:"Loading..."), x, y);
+            sketch.text(type + ": " + (dataLoaded?DATA[index][type] + units:"..."), x, y);
         } 
-        makeText("ms_since_last_cycle", 10, 37);
-        makeText("fixed", 10, 60);
-        makeText("latitude", 10, 83);
-        makeText("longitude", 10, 104);
-        makeText("altitude", 10, 128);
-        makeText("speed", 10, 151);
-        makeText("satellites", 10, 175);
-        makeText("avg_thermistor", 10, 198);
-        makeText("thermistor_c", 10, 219);
-        makeText("pressure", 10, 310);
-        makeText("humidity", 10, 332);
-        makeText("upward_speed", 10, 355);
-        makeText("avg_upward_speed", 10, 378);
+        if (dataLoaded && cachedData[currentMode].available.includes('ms_since_last_cycle')) {
+            makeText("ms_since_last_cycle", 10, 37);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('fixed')) {
+            makeText("fixed", 10, 60);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('latitude')) {
+            makeText("latitude", 10, 83);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('longitude')) {
+            makeText("longitude", 10, 104);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('altitude')) {
+            makeText("altitude", 10, 128);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('speed')) {
+            makeText("speed", 10, 151);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('satellites')) {
+            makeText("satellites", 10, 175);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('avg_thermistor')) {
+            makeText("avg_thermistor", 10, 198);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('thermistor_c')) {
+            makeText("thermistor_c", 10, 219);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('pressure')) {
+            makeText("pressure", 10, 310);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('humidity')) {
+            makeText("humidity", 10, 332);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('upward_speed')) {
+            makeText("upward_speed", 10, 355);
+        }
+        if (dataLoaded && cachedData[currentMode].available.includes('avg_upward_speed')) {
+            makeText("avg_upward_speed", 10, 378);
+        }
 
         function drawtext( x, y, text_array ) {
             let pos_x = x;
@@ -422,30 +424,30 @@ let info = function( sketch ) {
         }
         let gyro = [
             ["gyro xyz: ", hovered==="gyro_xyz"?settings.alternateColor:settings.textColor],
-            [(dataLoaded?DATA[index].gyro_x:"Loading...") + " ", hovered==="gyro_xyz"?settings.alternateColor:settings.graphColors[0]],
-            [(dataLoaded?DATA[index].gyro_y:"Loading...") + " ", hovered==="gyro_xyz"?settings.alternateColor:settings.graphColors[1]],
-            [(dataLoaded?DATA[index].gyro_z:"Loading..."), hovered==="gyro_xyz"?settings.alternateColor:settings.graphColors[2]],
+            [(dataLoaded?DATA[index].gyro_x:"...") + " ", hovered==="gyro_xyz"?settings.alternateColor:settings.graphColors[0]],
+            [(dataLoaded?DATA[index].gyro_y:"...") + " ", hovered==="gyro_xyz"?settings.alternateColor:settings.graphColors[1]],
+            [(dataLoaded?DATA[index].gyro_z:"..."), hovered==="gyro_xyz"?settings.alternateColor:settings.graphColors[2]],
         ]
         drawtext(10, 243, gyro);
         let accel = [
             ["accel xyz: ", hovered==="accel_xyz"?settings.alternateColor:settings.textColor],
-            [(dataLoaded?DATA[index].accel_x:"Loading...") + " ", hovered==="accel_xyz"?settings.alternateColor:settings.graphColors[0]],
-            [(dataLoaded?DATA[index].accel_y:"Loading...") + " ", hovered==="accel_xyz"?settings.alternateColor:settings.graphColors[1]],
-            [(dataLoaded?DATA[index].accel_z:"Loading..."), hovered==="accel_xyz"?settings.alternateColor:settings.graphColors[2]],
+            [(dataLoaded?DATA[index].accel_x:"...") + " ", hovered==="accel_xyz"?settings.alternateColor:settings.graphColors[0]],
+            [(dataLoaded?DATA[index].accel_y:"...") + " ", hovered==="accel_xyz"?settings.alternateColor:settings.graphColors[1]],
+            [(dataLoaded?DATA[index].accel_z:"..."), hovered==="accel_xyz"?settings.alternateColor:settings.graphColors[2]],
         ]
         drawtext(10, 266, accel);
         let mag = [
             ["mag xyz: ", hovered==="mag_xyz"?settings.alternateColor:settings.textColor],
-            [(dataLoaded?DATA[index].mag_x:"Loading...") + " ", hovered==="mag_xyz"?settings.alternateColor:settings.graphColors[0]],
-            [(dataLoaded?DATA[index].mag_y:"Loading...") + " ", hovered==="mag_xyz"?settings.alternateColor:settings.graphColors[1]],
-            [(dataLoaded?DATA[index].mag_z:"Loading..."), hovered==="mag_xyz"?settings.alternateColor:settings.graphColors[2]],
+            [(dataLoaded?DATA[index].mag_x:"...") + " ", hovered==="mag_xyz"?settings.alternateColor:settings.graphColors[0]],
+            [(dataLoaded?DATA[index].mag_y:"...") + " ", hovered==="mag_xyz"?settings.alternateColor:settings.graphColors[1]],
+            [(dataLoaded?DATA[index].mag_z:"..."), hovered==="mag_xyz"?settings.alternateColor:settings.graphColors[2]],
         ]
         drawtext(10, 289, mag);
-        // sketch.text("gyro xyz: " + (dataLoaded?DATA[index].gyro_x:"Loading...") + " " + (dataLoaded?DATA[index].gyro_y:"Loading...") + " " + (dataLoaded?DATA[index].gyro_z:"Loading..."), 10, 243);
+        // sketch.text("gyro xyz: " + (dataLoaded?DATA[index].gyro_x:"...") + " " + (dataLoaded?DATA[index].gyro_y:"...") + " " + (dataLoaded?DATA[index].gyro_z:"..."), 10, 243);
         // sketch.fill(hovered==="accel_xyz"?settings.alternateColor:settings.textColor);
-        // sketch.text("accel xyz: " + (dataLoaded?DATA[index].accel_x:"Loading...") + " " + (dataLoaded?DATA[index].accel_y:"Loading...") + " " + (dataLoaded?DATA[index].accel_z:"Loading..."), 10, 266);
+        // sketch.text("accel xyz: " + (dataLoaded?DATA[index].accel_x:"...") + " " + (dataLoaded?DATA[index].accel_y:"...") + " " + (dataLoaded?DATA[index].accel_z:"..."), 10, 266);
         // sketch.fill(hovered==="mag_xyz"?settings.alternateColor:settings.textColor);
-        // sketch.text("mag xyz: " + (dataLoaded?DATA[index].mag_x:"Loading...") + " " + (dataLoaded?DATA[index].mag_y:"Loading...") + " " + (dataLoaded?DATA[index].mag_z:"Loading..."), 10, 288);
+        // sketch.text("mag xyz: " + (dataLoaded?DATA[index].mag_x:"...") + " " + (dataLoaded?DATA[index].mag_y:"...") + " " + (dataLoaded?DATA[index].mag_z:"..."), 10, 288);
 
 
 
@@ -599,6 +601,7 @@ let info = function( sketch ) {
                     selected = "none";
                     return;
                 }
+                if (!cachedData[currentMode].available.includes(key)) return;
                 if (selected === "x_axis") selectedAxes[0] = key;
                 if (selected === "y_axis") selectedAxes[1] = key;
                 selected = "none";
@@ -733,7 +736,6 @@ function updateInfo(i) {
     // Makes sure nothing goes too wrong
     values = values.map(x => (typeof x === 'undefined')?cmap(0.5):x);
 
-    // console.log(values)
     frameSlider.value(index);
     //incrementFrame();
     // document.getElementById("cube-video").currentTime = (694 + 1*(3600/1.45061852762));// 1080 + (index - 5928) / 1.5;
@@ -746,22 +748,19 @@ function updateInfo(i) {
 window.onload = () => {
     document.getElementById('title').addEventListener('click', () => {
 
-        let targetMode = {
-            "SEANJAIDEN": "BAKERMILO",
-            "BAKERMILO": "KAIEVAN",
-            "KAIEVAN": "SAM",
-            "SAM": "SEANJAIDEN"
-        }[currentMode];
         if (!dataLoaded) return;
-        console.log(targetMode)
-        if (cachedData[targetMode].length > 0) {
+
+        let targetMode = currentMode + 1;
+
+        if (cachedData[targetMode]) {
             currentMode = targetMode;
-            console.log("Retrieving cached data..." + targetMode)
-            DATA = cachedData[targetMode];
+            console.log("Retrieving cached data for file " + targetMode + " (" + cachedData[targetMode].title + ")...")
+            DATA = cachedData[targetMode].data;
             setData(targetMode);
             return;
         }
         dataLoaded = false;
+        document.getElementById('title').innerHTML = 'Loading...';
         console.log("User: " + userID + " requesting data");
         socket.emit('request data', { mode: targetMode, userID: userID });
 
@@ -771,28 +770,26 @@ window.onload = () => {
     
 
 window.onrecieve = (data) => {
-    // Mode indicator
-    if (typeof data.data === 'string') {
-        setData(data.data);
-        return;
-    }
     // Colormaps
     if (typeof data.data[0] === 'string') {
         colors.push(data.data);
         return;
     }
     // Ignore garbage data
-    if (data.data === undefined || data.data === null || data.data.includes(null) || data.data.includes(undefined)) {
+    if (data.data === undefined || data.data === null) {
         console.error("Garbage data detected, ignoring...");
         return;
     }
-    
-    DATA = data.data;
+    // So many datas
+    DATA = data.data.data;
+    currentMode = data.data.mode;
+
     if (settings.skipGPSFrames) {
         DATA = DATA.filter(d => d.live_cam == 1);
     }
     // Caches data for faster loading
-    cachedData[currentMode] = DATA;
+    cachedData[currentMode] = {title: data.data.title, data: data.data.data, available: data.data.available};
+    setData(currentMode);
     document.getElementById('frame-slider').max = DATA.length - 1;
     updateInfo(index);
     document.getElementById('frame-slider').addEventListener('mousedown', () => {   
@@ -869,36 +866,14 @@ function setData(mode) {
     controls.view.zoom = 1;
     controls.view.x = 0;
     controls.view.y = 0;
-    if (mode === "SEANJAIDEN") {
-        document.getElementById('title').innerHTML = "Midnight Balloon Data - Sean Kuwamoto & Jaiden Grimminck";
-        watermark = false;
-        dataInfo.frame.range = [0, settings.skipGPSFrames?10700:13400];
-        dataInfo.time.range = ["13:35:00:0", "17:20:00:0"];
-        dataInfo.altitude.range = [0, 12000];
-    }
-    if (mode === "KAIEVAN") {
-        document.getElementById('title').innerHTML = "Dusk Balloon Data - Kai Spada & Evan Kuo";
-        dataInfo.time.range = ["15:37:13:0", "20:11:52:0"];
-        dataInfo.frame.range = [0, 16500];
-        dataInfo.altitude.range = [0, 32500];
-        watermark = true;
-    }
-    if (mode === "BAKERMILO") {
-        document.getElementById('title').innerHTML = "Dawn Balloon Data - Baker Simmons & Milo Sperry";
-        dataInfo.time.range  = ["13:37:00:0", "22:35:00:0"];
-        dataInfo.altitude.range = [0, 27000];
-        dataInfo.frame.range =[0, 33181];
-        selectedAxes = ["time", "altitude"];
-        watermark = true;
-    }
-    if (mode === "SAM") {
-        document.getElementById('title').innerHTML = "Balloon Data - Sam Barron";
-        dataInfo.time.range  = ["13:52:00:0", "18:15:00:0"];
-        dataInfo.altitude.range = [0, 27000];
-        dataInfo.frame.range =[0, 15625];
-        selectedAxes = ["time", "altitude"];
-        watermark = true;
-    }
+
+    console.log(cachedData[currentMode].title);
+    document.getElementById('title').innerHTML = cachedData[currentMode].title;
+    watermark = true;
+    dataInfo.frame.range = [0, settings.skipGPSFrames?10700:13400];
+    dataInfo.time.range = ["13:35:00:0", "17:20:00:0"];
+    dataInfo.altitude.range = [0, 12000];
+
     document.getElementById('frame-slider').max = DATA.length - 1;
 }
 
