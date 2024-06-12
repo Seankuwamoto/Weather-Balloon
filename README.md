@@ -34,13 +34,17 @@ npm -v # should print `10.7.0`
 
 ### Step 2: Downloading the code to your computer
 At the top of this repository, you should see a green button labeled `Code`. By clicking on this, then pressing `Download ZIP`, you can download all of my code to a zip file on your computer.
+
 ![image](/images/zip.png)
+
 After navigating to this zip file in your finder and double-clicking on it, it will become unzipped and create a folder in your downloads called Weather-Balloon. 
 
 Move this folder to wherever you would like to have it, preferably somewhere like `documents` or `desktop` so that it doesn't get lost in your downloads. Make sure to remember where you put it, you'll need that later.
 ### Step 3: Downloading the needed packages
 To install the needed npm packages for this project, you will first need to **naviagate into the project directory** in the terminal. Right now your terminal is dealing with your whole computer, but you want to move into the project folder so that you can run files and install packages inside it. Your terminal should look something like this:
+
 ![image](/images/terminal.png)
+
 if not, run the command
 ```bash
 cd
@@ -54,6 +58,7 @@ to navigate into my Desktop. From there, I will run
 cd Weather-Balloon
 ```
 to move into the `Weather-Balloon` folder. To make sure that it worked, you can run the `ls` command and it should **l**is**t** all of the files in your current directory. You should see it print out things like `dataAnalysis.js` and `customData.js`.
+
 ![image](/images/navigated.png)
 
 Once your in, there are **five** npm packages you need to install: `express`, `http`, `socket.io`, `fs`, and `colormap`. To install these packages, type the following five commands into the terminal **one at a time**:
