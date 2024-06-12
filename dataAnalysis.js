@@ -22,7 +22,6 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const fs = require('fs');
 const colormap = require('colormap');
-const { FILE } = require('dns');
 
 // Inferno colormap function from 0 to 1
 const colors = colormap({
