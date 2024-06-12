@@ -164,6 +164,7 @@ let camera = function( sketch ) {
         if(dataLoaded) {
             for (let i = 0; i < 32; i++) {
                 for (let j = 0; j < 24; j++) {
+
                     if (typeof values[32*j + i] !== "string") {
                         throw new Error();
                     }
@@ -294,7 +295,7 @@ let info = function( sketch ) {
         let hovered;
         for (let [key, value] of Object.entries(hitboxes)) {
             if (!dataLoaded) continue;
-            if (!cachedData[currentMode].available.includes(key) && key !== 'x_axis' && key !== 'y_axis') continue;
+            if (!cachedData[currentMode].available.includes(key) && key !== 'x_axis' && key !== 'y_axis' && key !== 'frame') continue;
             if (detectHover(sketch, value) && DATA[index][key] !== "N/A") {
                 hovered = key;
                 // change cursor
@@ -384,21 +385,21 @@ let info = function( sketch ) {
             [(dataLoaded?DATA[index].gyro_y:"...") + " ", hovered==="gyro_xyz"?settings.alternateColor:settings.graphColors[1]],
             [(dataLoaded?DATA[index].gyro_z:"..."), hovered==="gyro_xyz"?settings.alternateColor:settings.graphColors[2]],
         ]
-        drawtext(10, 243, gyro);
+        dataLoaded&&cachedData[currentMode].available.includes('gyro_xyz')&&drawtext(10, 243, gyro);
         let accel = [
             ["accel xyz: ", hovered==="accel_xyz"?settings.alternateColor:settings.textColor],
             [(dataLoaded?DATA[index].accel_x:"...") + " ", hovered==="accel_xyz"?settings.alternateColor:settings.graphColors[0]],
             [(dataLoaded?DATA[index].accel_y:"...") + " ", hovered==="accel_xyz"?settings.alternateColor:settings.graphColors[1]],
             [(dataLoaded?DATA[index].accel_z:"..."), hovered==="accel_xyz"?settings.alternateColor:settings.graphColors[2]],
         ]
-        drawtext(10, 266, accel);
+        dataLoaded&&cachedData[currentMode].available.includes('accel_xyz')&&drawtext(10, 266, accel);
         let mag = [
             ["mag xyz: ", hovered==="mag_xyz"?settings.alternateColor:settings.textColor],
             [(dataLoaded?DATA[index].mag_x:"...") + " ", hovered==="mag_xyz"?settings.alternateColor:settings.graphColors[0]],
             [(dataLoaded?DATA[index].mag_y:"...") + " ", hovered==="mag_xyz"?settings.alternateColor:settings.graphColors[1]],
             [(dataLoaded?DATA[index].mag_z:"..."), hovered==="mag_xyz"?settings.alternateColor:settings.graphColors[2]],
         ]
-        drawtext(10, 289, mag);
+        dataLoaded&&cachedData[currentMode].available.includes('mag_xyz')&&drawtext(10, 289, mag);
         // sketch.text("gyro xyz: " + (dataLoaded?DATA[index].gyro_x:"...") + " " + (dataLoaded?DATA[index].gyro_y:"...") + " " + (dataLoaded?DATA[index].gyro_z:"..."), 10, 243);
         // sketch.fill(hovered==="accel_xyz"?settings.alternateColor:settings.textColor);
         // sketch.text("accel xyz: " + (dataLoaded?DATA[index].accel_x:"...") + " " + (dataLoaded?DATA[index].accel_y:"...") + " " + (dataLoaded?DATA[index].accel_z:"..."), 10, 266);
@@ -556,7 +557,7 @@ let info = function( sketch ) {
                     selected = "none";
                     return;
                 }
-                if (!cachedData[currentMode].available.includes(key)) return;
+                if (!cachedData[currentMode].available.includes(key) && key !== "frame") return;
                 if (selected === "x_axis") selectedAxes[0] = key;
                 if (selected === "y_axis") selectedAxes[1] = key;
                 selected = "none";
@@ -765,7 +766,6 @@ window.onrecieve = (data) => {
 
     document.getElementById('loader').style.visibility = "hidden";
     document.getElementById('main').style.visibility = "visible";
-
     dataLoaded = true;
 }
 
@@ -837,8 +837,9 @@ function setData(mode) {
         for (let override of RANGE_OVERRIDES) {
             if (override.mode === mode) {
                 for (let [key, value] of Object.entries(override.overrides)) {
+                    console.log(key, value);
                     graphSettings[key].range = value;
-                    console.log("setting" + key + " to " + value);
+                    console.log("setting " + key + " to " + value);
                 }
                 break;
             }
@@ -853,6 +854,20 @@ function setData(mode) {
     // dataInfo.altitude.range = [0, 12000];
 
     document.getElementById('frame-slider').max = DATA.length - 1;
+
+    if (!cachedData[currentMode].available.includes(selectedAxes[0])) selectedAxes[0] = 'frame';
+    if (!cachedData[currentMode].available.includes(selectedAxes[1]))  {
+        if (cachedData[currentMode].available.includes('altitude')) {
+            selectedAxes[1] = 'altitude';
+        }
+        else if (cachedData[currentMode].available.includes('thermistor_c')) {
+            selectedAxes[1] = 'thermistor_c'
+        }
+        else {
+            selectedAxes[1] = cachedData[currentMode].available.filter(x => (x !== 'fixed' && x !== 'date'))[0];
+        }
+    }
+        
 }
 
 function toggleScatterplot() {

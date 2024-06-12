@@ -75,17 +75,17 @@ io.on('connection', (socket) => {
             }
         }
     }
-    sendData({
-        mode: STARTING_MODE,
-        title: FILE_LIST[STARTING_MODE].title,
-        data: getData(STARTING_MODE),
-        available: getAvailable(STARTING_MODE),
-    }, socket.id);
     sendData(colors, socket.id);        // Colors
     sendData(extraColors, socket.id);   // More colors
     sendData({
         EXTRA_SETTINGS: EXTRA_SETTINGS,
         RANGE_OVERRIDES: RANGE_OVERRIDES,
+    }, socket.id);
+    sendData({
+        mode: STARTING_MODE,
+        title: FILE_LIST[STARTING_MODE].title,
+        data: getData(STARTING_MODE),
+        available: getAvailable(STARTING_MODE),
     }, socket.id);
 
     socket.on('request data', (msg) => {
@@ -163,7 +163,14 @@ function getDataRaw(mode) {
         throw new Error("Unable to find " + filename + ". Please check that the file name is spelled correctly, and that it is in the data folder.")
     }
     
-    let e = dat.split('\r\n').slice(2);
+    
+    let e = dat.split('\n').map(x => x.replace(/[\r]/g, '')).slice(2);
+    if (e.length === 0) {
+        e = dat.split('\n');
+    }
+    if (e.length === 0) {
+        throw new Error("Unable to process data.")
+    }
     if (NUM_ROWS == 0) return e.slice(0, e.length - 1);
     else return e.slice(0, NUM_ROWS);
     

@@ -134,6 +134,18 @@ const FILE_LIST = [
             satellites: 7,
             cam_data: 8,
         }
+    },
+    {
+        filename: "EXAMPLE_DATA.CSV",
+        title: "Example Data - Sean Kuwamoto",
+        spreadsheet_info: {
+            date: 0,
+            time: 1,
+            latitude: 2,
+            longitude: 3,
+            thermistor_c: 4,
+            cam_data: 5
+        }
     }
 ]
 
@@ -257,6 +269,13 @@ const RANGE_OVERRIDES = [
             altitude: [0, 14000]
         }
     },
+    {
+        filename: "EXAMPLE_DATA.CSV",
+        overrides: {
+            frame: [0, 198],
+            thermistor_c: [13, 20]
+        }
+    }
     
 ]
 module.exports = {
