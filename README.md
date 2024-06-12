@@ -61,7 +61,7 @@ to move into the `Weather-Balloon` folder. To make sure that it worked, you can 
 
 ![image](/images/navigated.png)
 
-Once your in, there are **five** npm packages you need to install: `express`, `http`, `socket.io`, `fs`, and `colormap`. To install these packages, type the following five commands into the terminal **one at a time**:
+Once your in, there are **five** npm packages you need to install: `express`, `http`, `socket.io`, `fs`, and `colormap`. To install these packages, enter the following five commands into the terminal:
 ```bash
 npm install express
 ```
