@@ -13,128 +13,84 @@ const settings = {
     gridlines: true,
     absoluteTemperature: false,
 }
-// Fix this in a second.
-const dataInfo = {
+// Colors and data
+let dataInfo = {
     frame: {
-        label: "Current frame",
-        range: [0, 16500],
         colors: [settings.textColor],
         data: ["frame"],
-        units: "none"
     },
     time: {
-        label: "Time",
-        range: ["13:39:11:0", "17:20:00:0"],
         colors: [settings.textColor],
         data: ["time"],
-        units: "(UTC)"
     },
     ms_since_last_cycle: {
-        label: "Time since last cycle",
-        range: [1000, 1050],
         colors: [settings.textColor],
         data: ["ms_since_last_cycle"],
-        units: "(ms)"
     },
     latitude: {
-        label: "Latitude",
-        range: [3910, 3940],
         colors: [settings.textColor],
         data: ["latitude"],
-        units: "none"
     },
     longitude: {
-        label: "Longitude",
-        range: [12130, 12160],
         colors: [settings.textColor],
         data: ["longitude"],
-        units: "none"
     },
     altitude: {
-        label: "Altitude",
-        range: [0, 32200],
         colors: [settings.textColor],
         data: ["altitude"],
-        units: "(m)"
     }, 
     speed: {
-        label: "Speed",
-        range: [0, 40],
         colors: [settings.textColor],
         data: ["speed"],
-        units: "(km/h)"
     },
     satellites: {
-        label: "Number of Satellites",
-        range: [0, 20],
         colors: [settings.textColor],
         data: ["satellites"],
-        units: "none"
     },
     avg_thermistor: {
-        label: "Average Thermistor Reading",
-        range: [400, 1100],
         colors: [settings.textColor],
         data: ["avg_thermistor"],
-        units: "(V)"
     },
     thermistor_c: {
-        label: "Temperature",
-        range: [-60 , 25],
         colors: [settings.textColor],
         data: ["thermistor_c"],
-        units: "(ºC)"
     },
     gyro_xyz: {
-        label: "Gyroscope",
-        range: [-0.3, 0.3],
         colors: settings.graphColors,
         data: ["gyro_x", "gyro_y", "gyro_z"],
-        units: "(º/s)"
     },
     accel_xyz: {
-        label: "Accelerometer",
-        range: [-1, 1],
         colors: settings.graphColors,
         data: ["accel_x", "accel_y", "accel_z"],
-        units: "(m/s²)"
     },
     mag_xyz: {
-        label: "Magnetometer",
-        range: [-50, 50],
         colors: settings.graphColors,
         data: ["mag_x", "mag_y", "mag_z"],
-        units: "(uT)"
     },
     pressure: {
-        label: "Pressure",
-        range: [0, 1200],
         colors: [settings.textColor],
         data: ["pressure"],
-        units: "(hPa)"
     },
     humidity: {
-        label: "Relative humidity",
-        range: [0, 100],
         colors: [settings.textColor],
         data: ["humidity"],
-        units: "(%)"
     },
     upward_speed: {
-        label: "Upward speed",
-        range: [-15, 5],
         colors: [settings.textColor],
         data: ["upward_speed"],
-        units: "(m/s)"
     },
     avg_upward_speed: {
-        label: "Average upward speed",
-        range: [-15, 5],
         colors: [settings.textColor],
         data: ["avg_upward_speed"],
-        units: "(m/s)"
     },
 }
+
+let EXTRA_SETTINGS;
+let RANGE_OVERRIDES;
+// label, range, units
+let graphSettings;
+let overrides;
+
 const hitboxes = {
     x_axis: [330, 460, 220, 20],
     y_axis: [222, 155, 20, 220],
@@ -338,7 +294,7 @@ let info = function( sketch ) {
         let hovered;
         for (let [key, value] of Object.entries(hitboxes)) {
             if (!dataLoaded) continue;
-            if (!cachedData[currentMode].available.includes(key)) continue;
+            if (!cachedData[currentMode].available.includes(key) && key !== 'x_axis' && key !== 'y_axis') continue;
             if (detectHover(sketch, value) && DATA[index][key] !== "N/A") {
                 hovered = key;
                 // change cursor
@@ -352,7 +308,7 @@ let info = function( sketch ) {
         sketch.textAlign(sketch.LEFT, sketch.TOP);
         sketch.fill(hovered==="time"?settings.alternateColor:settings.textColor);
         sketch.textSize(18);
-        sketch.text((dataLoaded?DATA[index].time:"0:0:0:0") + " " + dataInfo.time.units, 10, 10);
+        sketch.text((dataLoaded?DATA[index].time:"0:0:0:0") + " " + (dataLoaded?graphSettings.time.units:''), 10, 10);
 
         // Date
         sketch.textAlign(sketch.RIGHT, sketch.TOP);
@@ -368,7 +324,7 @@ let info = function( sketch ) {
         sketch.textAlign(sketch.LEFT, sketch.CENTER);
         function makeText(type, x, y) {
             sketch.fill(hovered===type?settings.alternateColor:settings.textColor);
-            let units = (!dataInfo[type]||dataInfo[type].units==="none")?"":" " + dataInfo[type].units;
+            let units = (!dataInfo[type]||graphSettings[type].units==="none")?"":" " + graphSettings[type].units;
             sketch.text(type + ": " + (dataLoaded?DATA[index][type] + units:"..."), x, y);
         } 
         if (dataLoaded && cachedData[currentMode].available.includes('ms_since_last_cycle')) {
@@ -465,7 +421,7 @@ let info = function( sketch ) {
         sketch.textAlign(sketch.CENTER, sketch.BOTTOM);
         sketch.textSize(18);
         sketch.fill(settings.textColor);
-        sketch.text(dataInfo[selectedAxes[1]].label + " " + (dataInfo[selectedAxes[1]].units==="none"?"":dataInfo[selectedAxes[1]].units) + " vs. " + dataInfo[selectedAxes[0]].label + " " + (dataInfo[selectedAxes[0]].units==="none"?"":dataInfo[selectedAxes[0]].units), hitboxes.graph[0] + hitboxes.graph[2]/2, hitboxes.graph[1] - 10);
+        dataLoaded&&sketch.text(graphSettings[selectedAxes[1]].label + " " + (graphSettings[selectedAxes[1]].units==="none"?"":graphSettings[selectedAxes[1]].units) + " vs. " + graphSettings[selectedAxes[0]].label + " " + (graphSettings[selectedAxes[0]].units==="none"?"":graphSettings[selectedAxes[0]].units), hitboxes.graph[0] + hitboxes.graph[2]/2, hitboxes.graph[1] - 10);
         let cnvRect = document.getElementById('info-canvas').getBoundingClientRect();
         // sketch.text("Zoom: " + controls.view.zoom.toFixed(2) + " Translate: " + 
         // ((controls.view.x - hitboxes.graph[0])/controls.view.zoom + hitboxes.graph[0])
@@ -483,7 +439,7 @@ let info = function( sketch ) {
         sketch.textAlign(sketch.CENTER, sketch.TOP);
         sketch.textSize(18);
         sketch.fill(hovered==="x_axis"||selected==="x_axis"?settings.alternateColor:settings.textColor);
-        sketch.text(selected==="x_axis"?"Selecting...":dataInfo[selectedAxes[0]].label + " " + (dataInfo[selectedAxes[0]].units==="none"?"":dataInfo[selectedAxes[0]].units), hitboxes.graph[0] + hitboxes.graph[2]/2, hitboxes.graph[1] + hitboxes.graph[3] + 30);
+        dataLoaded&&sketch.text(selected==="x_axis"?"Selecting...":graphSettings[selectedAxes[0]].label + " " + (graphSettings[selectedAxes[0]].units==="none"?"":graphSettings[selectedAxes[0]].units), hitboxes.graph[0] + hitboxes.graph[2]/2, hitboxes.graph[1] + hitboxes.graph[3] + 30);
         
 
         // Tickmarks
@@ -531,9 +487,8 @@ let info = function( sketch ) {
         sketch.noFill();
         
         // Zero lines
-        if (selectedAxes[0] !== "time") 
-        {
-            let xZero = hitboxes.graph[0] +((0 - dataInfo[selectedAxes[0]].range[0])/(dataInfo[selectedAxes[0]].range[1] - dataInfo[selectedAxes[0]].range[0]))*hitboxes.graph[2];
+        if (selectedAxes[0] !== "time" && dataLoaded) {
+            let xZero = hitboxes.graph[0] +((0 - graphSettings[selectedAxes[0]].range[0])/(graphSettings[selectedAxes[0]].range[1] - graphSettings[selectedAxes[0]].range[0]))*hitboxes.graph[2];
             let transformed = controls.view.x + (controls.view.zoom * xZero);
             if (!(transformed <= hitboxes.graph[0] || transformed >= hitboxes.graph[0] + hitboxes.graph[2])) {
                 sketch.stroke(settings.textColor);
@@ -545,8 +500,8 @@ let info = function( sketch ) {
                 sketch.textSize(18);
             }
         }
-        if (selectedAxes[1] !== "time") {
-            let yZero = hitboxes.graph[1] + hitboxes.graph[3] + ((0 - dataInfo[selectedAxes[1]].range[0])/(dataInfo[selectedAxes[1]].range[1] - dataInfo[selectedAxes[1]].range[0]))*(-hitboxes.graph[3]);
+        if (selectedAxes[1] !== "time" && dataLoaded) {
+            let yZero = hitboxes.graph[1] + hitboxes.graph[3] + ((0 - graphSettings[selectedAxes[1]].range[0])/(graphSettings[selectedAxes[1]].range[1] - graphSettings[selectedAxes[1]].range[0]))*(-hitboxes.graph[3]);
             let transformed = controls.view.y + (controls.view.zoom * yZero);
             if (!(transformed <= hitboxes.graph[1] || transformed >= hitboxes.graph[1] + hitboxes.graph[3])) {
                 sketch.stroke(settings.textColor);
@@ -577,7 +532,7 @@ let info = function( sketch ) {
 
         sketch.textAlign(sketch.CENTER, sketch.BOTTOM);
         sketch.rotate(-sketch.PI/2);
-        sketch.text(selected==="y_axis"?"Selecting...":dataInfo[selectedAxes[1]].label + " " + (dataInfo[selectedAxes[1]].units==="none"?"":dataInfo[selectedAxes[1]].units), -(hitboxes.graph[1] + hitboxes.graph[3]/2), hitboxes.graph[0] - 30);
+        dataLoaded&&sketch.text(selected==="y_axis"?"Selecting...":graphSettings[selectedAxes[1]].label + " " + (graphSettings[selectedAxes[1]].units==="none"?"":graphSettings[selectedAxes[1]].units), -(hitboxes.graph[1] + hitboxes.graph[3]/2), hitboxes.graph[0] - 30);
 
     }
 
@@ -780,6 +735,14 @@ window.onrecieve = (data) => {
         console.error("Garbage data detected, ignoring...");
         return;
     }
+    // Extra settings
+    if (data.data.EXTRA_SETTINGS !== undefined) {
+        EXTRA_SETTINGS = data.data.EXTRA_SETTINGS;
+        RANGE_OVERRIDES = data.data.RANGE_OVERRIDES;
+        // Creates deep copy
+        graphSettings = JSON.parse(JSON.stringify(EXTRA_SETTINGS));
+        return;
+    }
     // So many datas
     DATA = data.data.data;
     currentMode = data.data.mode;
@@ -810,24 +773,24 @@ function lerp(dataType, time) {
     if (!dataLoaded) return 0;
     if (dataType === "time") {
         // console.log(UTC(milis(dataInfo[dataType].range[0]) + time * (milis(dataInfo[dataType].range[1]) - milis(dataInfo[dataType].range[0]))))
-        return UTC(milis(dataInfo[dataType].range[0]) + time * (milis(dataInfo[dataType].range[1]) - milis(dataInfo[dataType].range[0])));
+        return UTC(milis(graphSettings[dataType].range[0]) + time * (milis(graphSettings[dataType].range[1]) - milis(graphSettings[dataType].range[0])));
     }
-    return dataInfo[dataType].range[0] + time * (dataInfo[dataType].range[1] - dataInfo[dataType].range[0]);
+    return graphSettings[dataType].range[0] + time * (graphSettings[dataType].range[1] - graphSettings[dataType].range[0]);
 }
 function inverseLerp(dataType, frame, line) {
     // console.log(frame > DATA.length - 1)
     if (!dataLoaded) return 0;
     if (dataType === "time") {
-        return Math.min(Math.max((milis(DATA[frame][dataType]) - milis(dataInfo[dataType].range[0]))/(milis(dataInfo[dataType].range[1]) - milis(dataInfo[dataType].range[0])), 0), 1);
+        return Math.min(Math.max((milis(DATA[frame][dataType]) - milis(graphSettings[dataType].range[0]))/(milis(graphSettings[dataType].range[1]) - milis(graphSettings[dataType].range[0])), 0), 1);
     }
     let dataPiece;
     if (dataType === "frame") {
-        dataPiece = frame - dataInfo[dataType].range[0];
+        dataPiece = frame - graphSettings[dataType].range[0];
     }
     else {
-        dataPiece = DATA[frame][dataInfo[dataType].data[line % dataInfo[dataType].data.length]] - dataInfo[dataType].range[0];
+        dataPiece = DATA[frame][dataInfo[dataType].data[line % dataInfo[dataType].data.length]] - graphSettings[dataType].range[0];
     }
-    return Math.min(Math.max(dataPiece/(dataInfo[dataType].range[1] - dataInfo[dataType].range[0]), 0), 1);
+    return Math.min(Math.max(dataPiece/(graphSettings[dataType].range[1] - graphSettings[dataType].range[0]), 0), 1);
 }
 
 function detectHover(sketch, hitbox) {
@@ -867,12 +830,27 @@ function setData(mode) {
     controls.view.x = 0;
     controls.view.y = 0;
 
+    // Replace overrides
+    // Clear previous overrides
+    if (EXTRA_SETTINGS !== undefined) {
+        graphSettings = JSON.parse(JSON.stringify(EXTRA_SETTINGS));
+        for (let override of RANGE_OVERRIDES) {
+            if (override.mode === mode) {
+                for (let [key, value] of Object.entries(override.overrides)) {
+                    graphSettings[key].range = value;
+                    console.log("setting" + key + " to " + value);
+                }
+                break;
+            }
+        }
+    }
+
     console.log(cachedData[currentMode].title);
     document.getElementById('title').innerHTML = cachedData[currentMode].title;
     watermark = true;
-    dataInfo.frame.range = [0, settings.skipGPSFrames?10700:13400];
-    dataInfo.time.range = ["13:35:00:0", "17:20:00:0"];
-    dataInfo.altitude.range = [0, 12000];
+    // dataInfo.frame.range = [0, settings.skipGPSFrames?10700:13400];
+    // dataInfo.time.range = ["13:35:00:0", "17:20:00:0"];
+    // dataInfo.altitude.range = [0, 12000];
 
     document.getElementById('frame-slider').max = DATA.length - 1;
 }

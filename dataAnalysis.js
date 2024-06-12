@@ -67,6 +67,15 @@ io.on('connection', (socket) => {
     if (STARTING_MODE >= FILE_LIST.length) {
         throw new Error("You cannot start with file number " + (STARTING_MODE + 1) + " because there are only " + FILE_LIST.length + " files.");
     }
+    for (let override of RANGE_OVERRIDES) {
+        let name = override.filename;
+        for (let i = 0; i < FILE_LIST.length; i++) {
+            if (FILE_LIST[i].filename.toLowerCase() === name.toLowerCase()) {
+                override.mode = i;
+                continue;
+            }
+        }
+    }
     sendData({
         mode: STARTING_MODE,
         title: FILE_LIST[STARTING_MODE].title,
@@ -75,6 +84,10 @@ io.on('connection', (socket) => {
     }, socket.id);
     sendData(colors, socket.id);        // Colors
     sendData(extraColors, socket.id);   // More colors
+    sendData({
+        EXTRA_SETTINGS: EXTRA_SETTINGS,
+        RANGE_OVERRIDES: RANGE_OVERRIDES,
+    }, socket.id);
 
     socket.on('request data', (msg) => {
         // Wraparound
@@ -180,11 +193,20 @@ function getData(mode) {
             else if (key === 'fixed' || key === 'live_cam') result = Boolean(+result);
             // camera data
             else if (key === 'cam_data') {
-                result = row.slice(value, value + 768).map(Number);
+                result = row.slice(value, value + 768).map(parseFloat);
+                // console.log(result);
                 // Fills array if it's less than 768 long
                 result = result.concat(Array(768).fill('N/A')).slice(0,768);
                 // Replaces garbage values with most recent values
-                result = result.map((x, i) => (isNaN(x))?mostRecentCameraData[i]:x);
+                result = result.map((x, i) => {
+                    if (isNaN(x)) {
+                        return mostRecentCameraData[i];
+                    }
+                    else {
+                        mostRecentCameraData[i] = x;
+                        return x;
+                    }
+                });
             }
             // Integer conversion
             else if (key !== 'date' && key !== 'time') result = parseFloat(result);

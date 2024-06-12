@@ -254,7 +254,7 @@ const RANGE_OVERRIDES = [
         filename: "SAM.csv",
         overrides: {
             time: ["12:39:11:0", "14:20:00:0"],
-            avg_thermistor: [300, 4000],
+            altitude: [0, 14000]
         }
     },
     
