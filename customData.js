@@ -45,98 +45,7 @@
 const FILE_LIST = [
     // you can add multiple files in here if you have multiple different datasets you want to look through. In this example there are four.
     {
-        // Put the name of your csv file in here. Make sure to include the ".csv" at the end.
-        filename: "MIDNIGHT.CSV",
-        // Put the title of your project here. It can be whatever you want.
-        title: "Midnight Balloon Data - Sean Kuwamoto & Jaiden Grimminck",
-        spreadsheet_info: {
-            date: 0,    
-            time: 1,
-            ms_since_last_cycle: 2,
-            fixed: 3,
-            latitude: 4,
-            longitude: 5,
-            altitude: 6, 
-            speed: 7,
-            angle: 8,
-            satellites: 9,
-            avg_thermistor: 10, // Avg thermistor voltage readings
-            thermistor_c: 11,
-            gyro_x: 12,     // Gyroscope
-            gyro_y: 13,
-            gyro_z: 14,
-            accel_x: 15,    // Accelerometer
-            accel_y: 16,
-            accel_z: 17,
-            mag_x: 18,      // Magnometer
-            mag_y: 19,
-            mag_z: 20,
-            live_cam: 21,   // Whether or not the IR camera is live
-            cam_data: 22,   // The first column of the camera data
-        }
-    },
-    {
-        filename: "DAWN.CSV",
-        title: "Dawn Balloon Data - Baker Simmons & Milo Sperry",
-        spreadsheet_info: {
-            date: 0,    
-            time: 1,
-            ms_since_last_cycle: 2,
-            fixed: 3,
-            latitude: 4,
-            longitude: 5,
-            altitude: 6, 
-            speed: 7,
-            angle: 8,
-            satellites: 9,
-            gyro_x: 10,     // Gyroscope
-            gyro_y: 11,
-            gyro_z: 12,
-            accel_x: 13,    // Accelerometer
-            accel_y: 14,
-            accel_z: 15,
-            mag_x: 16,      // Magnometer
-            mag_y: 17,
-            mag_z: 18,      
-            live_cam: 19,   // Whether or not the IR camera is live
-            cam_data: 20,   // The first column of the camera data
-        }
-    },
-    {
-        filename: "DUSK_CORRECTED.csv",
-        title: "Dusk Balloon Data - Kai Spada & Evan Kuo",
-        spreadsheet_info: {
-            time: 0,
-            latitude: 1,
-            longitude: 2,
-            altitude: 3, 
-            speed: 4,
-            angle: 5,
-            satellites: 6,
-            avg_thermistor: 7, // Avg thermistor voltage readings
-            thermistor_c: 8,    
-            pressure: 10,   // Because DAWN.CSV doesn't have pressure or humidity sensors the column is -1.
-            humidity: 11,
-            cam_data: 13,   // The first column of the camera data
-        }
-    },
-    {
-        filename: "SAM.CSV",
-        title: "Balloon Data - Sam Barron",
-        spreadsheet_info: {
-            date: 0,
-            time: 1,
-            latitude: 2,
-            longitude: 3,
-            altitude: 4,
-            speed: 5,
-            angle: 6,
-            satellites: 7,
-            cam_data: 8,
-        }
-    },
-    {
-        filename: "EXAMPLE_DATA.CSV",
+        filename: "EXAMPLE_DATA_1.CSV",
         title: "Example Data - Sean Kuwamoto",
         spreadsheet_info: {
             date: 0,
@@ -146,6 +55,19 @@ const FILE_LIST = [
             thermistor_c: 4,
             cam_data: 5
         }
+    },
+    {
+        filename: "EXAMPLE_DATA_2.CSV",
+        title: "Example Data #2 - Sean Kuwamoto",
+        spreadsheet_info: {
+            date: 0,
+            time: 1,
+            latitude: 2,
+            ms_since_last_cycle: 3,
+            longitude: 4,
+            altitude: 5,
+            cam_data: 6
+        }
     }
 ]
 
@@ -153,12 +75,14 @@ const FILE_LIST = [
 *   Down here are extra settings
 *   They control how your data is graphed
 *   The label and units are automatically placed on the graph
-*   The range is the start and end points for where you want it to graph
+*   What you'll probably want to change here are the ranges: make them custom to fit your graph.
+*   For example, if you know that your satellite flew up to 30,000 km, you might want to make the 
+*   altitude range go from 0 to 31000 so that you can see its whole journey.
 */
 const EXTRA_SETTINGS = {
     time: {
         label: "Time",
-        range: ["13:39:11:0", "17:20:00:0"],
+        range: ["15:40:00:0", "15:44:00:0"],
         units: "(UTC)",
     },
     ms_since_last_cycle: {
@@ -253,30 +177,22 @@ const EXTRA_SETTINGS = {
     },
 }
 
-// If you would like specific ranges for specific csv files, you can override them here:
+// If you would like specific ranges for specific csv files, you can override the general ranges here.
+// There's no point in using these settings if you're only using 1 CSV file.
 const RANGE_OVERRIDES = [
-    { 
-        filename: "DAWN.csv",
-        overrides: {
-            time: ["13:39:11:0", "17:20:00:0"],
-            avg_thermistor: [300, 1000],
-        }
-    },
-    { 
-        filename: "SAM.csv",
-        overrides: {
-            time: ["12:39:11:0", "14:20:00:0"],
-            altitude: [0, 14000]
-        }
-    },
     {
-        filename: "EXAMPLE_DATA.CSV",
+        filename: "EXAMPLE_DATA_1.CSV",
         overrides: {
             frame: [0, 198],
             thermistor_c: [13, 20]
         }
-    }
-    
+    },
+    {
+        filename: "EXAMPLE_DATA_2.CSV",
+        overrides: {
+            altitude: [0, 100]
+        }
+    },
 ]
 module.exports = {
     FILE_LIST,

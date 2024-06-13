@@ -295,7 +295,7 @@ let info = function( sketch ) {
         let hovered;
         for (let [key, value] of Object.entries(hitboxes)) {
             if (!dataLoaded) continue;
-            if (!cachedData[currentMode].available.includes(key) && key !== 'x_axis' && key !== 'y_axis' && key !== 'frame') continue;
+            if (!cachedData[currentMode].available.includes(key) && key !== 'x_axis' && key !== 'y_axis') continue;
             if (detectHover(sketch, value) && DATA[index][key] !== "N/A") {
                 hovered = key;
                 // change cursor
@@ -557,7 +557,7 @@ let info = function( sketch ) {
                     selected = "none";
                     return;
                 }
-                if (!cachedData[currentMode].available.includes(key) && key !== "frame") return;
+                if (!cachedData[currentMode].available.includes(key)) return;
                 if (selected === "x_axis") selectedAxes[0] = key;
                 if (selected === "y_axis") selectedAxes[1] = key;
                 selected = "none";

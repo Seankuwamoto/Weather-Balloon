@@ -379,6 +379,13 @@ function getAvailable(mode) {
     if (mag) keys.push('mag_xyz');
     if (accel) keys.push('accel_xyz');
 
+    if (keys.includes('altitude')) {
+        keys.push('upward_speed');
+        keys.push('avg_upward_speed');
+    }
+
+    keys.push('frame');
+    
     return keys;
 }
 
