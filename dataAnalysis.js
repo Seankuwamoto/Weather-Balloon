@@ -107,6 +107,7 @@ io.on('connection', (socket) => {
 });
 server.listen(3000, () => {
     console.log('listening on *:3000');
+    console.log('Visit\x1b[34m http://127.0.0.1:3000/ \x1b[0m in your browser to establish a connection (cmd + double-click to visit link).')
 });
 
 
@@ -385,7 +386,7 @@ function getAvailable(mode) {
     }
 
     keys.push('frame');
-    
+
     return keys;
 }
 

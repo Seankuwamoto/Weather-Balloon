@@ -28,7 +28,7 @@
 *   Note how the column numbers start from 0. The time column is first, and so you put a 0 for it. Latitude it second, and so you put a 1 for it.
 *   If you put your data in starting by counting from 1 into this file, everything will be off.
 *
-*   The list of possible terms you can use is:
+*   IMPORTANT: The list of possible terms you can use is:
 *       date, time, ms_since_last_cycle, fixed, latitude, longitude, altitude, speed, angle, 
 *       satellites, avg_thermistor, thermistor_c, gyro_x, gyro_y, gyro_z, accel_x, accel_y,
 *       accel_z, mag_x, mag_y, mag_z, live_cam, cam_data
@@ -184,7 +184,8 @@ const RANGE_OVERRIDES = [
         filename: "EXAMPLE_DATA_1.CSV",
         overrides: {
             frame: [0, 198],
-            thermistor_c: [13, 20]
+            thermistor_c: [13, 20],
+            latitude: [39.507, 39.513]
         }
     },
     {

@@ -77,9 +77,30 @@ npm install fs
 ```bash
 npm install colormap
 ```
-Once you do that, everything should be all set up!
+Once you do that, everything should be all set up! The repository comes with two example csv files already installed, so if you'd just like to see the program working you can skip step 4 and head to step 5.
 ### Step 4: Putting your spreadsheet in
-You should have a `.csv` file with your weather balloon data in it. Make a copy of it, and move it into 
+You should have a `.csv` file with your weather balloon data in it. Make a copy of it, and move it into the `data` folder in `Weather-Balloon`. There should be two other `.csv` files in there, called `EXAMPLE_DATA_1.csv` and `EXAMPLE_DATA_2.csv`. You can leave them there for now
 ### Step 5: Running the code
+Once everything is setup, you can open up your terminal, navigate to `Weather-Balloon` if you haven't already (see step 3), and run the following command:
+```bash
+node dataAnalysis.js
+```
+Hopefully, it should look something like this:
 
-### Step 6: Further customization
+![image](/images/running_the_program.png)
+
+Now, you can visit the link here: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+or by holding <kbd>&#8984;</kbd> and double-clicking on the link in the terminal. This is the website!
+
+### Step 6: Using the website
+
+![video](/images/usage.mov)
+
+The website has many features, but all of them are pretty straightforward. The slider at the bottom of the graph lets you sift through your frames. You can use <kbd>Space</kbd> to play/pause the slider, and you can use <kbd>&#8592;</kbd> and <kbd>&#8594;</kbd> to go through frame by frame. If you tap the left or right arrow in quick succession, it will move you through 1/50th of your total frame count as opposed to just one frame.
+
+For the graph, you can scroll up and down to zoom in and out. To change which variables are on the axes, you can click on one of the axes, then click on the variable you would like it to become. 
+
+At the bottom, there are three buttons which toggle various settings for the website. Show grid lines and scatter plot are fairly self-explanatory, and abs. temp locks the camera into coloring each frame relative to a fixed temperature scale instead of having each pixel be colored relative to the other pixels in the current frame. 
+
+If you have any questions, please contact me at sean.kuwamoto@gmail.com!
+### Step 7: Further customization
