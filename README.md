@@ -1,7 +1,7 @@
 # Weather-Balloon
-
-WARNING: This code is not ready to be used yet, and I haven't finished writing the instructions. Please do not try to use the code yet or follow any of the directions below. Thank you.
 ---
+## Contact me
+For bug reports or questions, please shoot me an email at sean.kuwamoto@gmail.com. I'd be happy to spend some time helping you get your data to work!
 ## Usage instructions
 
 ### Step 1: Installing Node
@@ -11,7 +11,7 @@ Before getting started with my code here on github, you'll need to install node 
 
 In case you have trouble with the instructions on Node's website, I'll also walk through the steps of installing it on a Mac here.
 
-The first step is to open up terminal on your Macbook. Terminal is an application that is automatically installed on all Macbooks, and you can acess it by pressing <kbd>&#8984;</kbd> + <kbd>Space</kbd> and then searching `terminal`.
+The first step is to open up terminal on your Macbook. Terminal is an application that is automatically installed on all Macbooks, and you can acess it by pressing <kbd>Cmd</kbd> + <kbd>Space</kbd> and then searching `terminal`.
 
 Once inside terminal, you should copy and paste the following line into the terminal and press enter:
 ```bash
@@ -79,7 +79,31 @@ npm install colormap
 ```
 Once you do that, everything should be all set up! The repository comes with two example csv files already installed, so if you'd just like to see the program working you can skip step 4 and head to step 5.
 ### Step 4: Putting your spreadsheet in
-You should have a `.csv` file with your weather balloon data in it. Make a copy of it, and move it into the `data` folder in `Weather-Balloon`. There should be two other `.csv` files in there, called `EXAMPLE_DATA_1.csv` and `EXAMPLE_DATA_2.csv`. You can leave them there for now
+You should have a `.csv` file with your weather balloon data in it. Make a copy of it, and move it into the `data` folder in `Weather-Balloon`. There should be two other `.csv` files in there, called `EXAMPLE_DATA_1.csv` and `EXAMPLE_DATA_2.csv`. You can leave them there for now.
+
+![image](images/customData.png)
+
+Now you should head over to customData.js. You'll need to make changes to it in order for your data to show up, and you can use the builtin Mac text editor `textEdit` or a code editor like `VSCode`.
+
+![image](images/TextEdit.png)
+
+Once open, you can take a look at the instructions inside `customData.js` and then scroll down to the `FILE_LIST` and begin adding the information for your csv file:
+
+![image](images/yourInfo.png)
+
+To add your own data, add a comma after the end of the second example file's curly braces and create a pair of your own. In it, you must include the name of your file in a section called `filename`, a title (it can be whatever you want), and `spreadsheet_info`. Here you will say what data from your spreadsheet you want to include and which column it can be found in. The column indices start from 0, so 0 means the first column, 1 means the second column, and so on. 
+
+Only certain keywords can be used to include columns of data:
+> `date`, `time`, `ms_since_last_cycle`, `fixed`, `latitude`, `longitude`, `altitude`, `speed`, `angle`,`satellites`, `avg_thermistor`, `thermistor_c`, `gyro_x`, `gyro_y`, `gyro_z`, `accel_x`, `accel_y`,`accel_z`, `mag_x`, `mag_y`, `mag_z`, `live_cam`, `cam_data`, `pressure`, `humidity`
+
+If there is a sensor that you have that is not on this list, you can contact me and I can try to change it, or you can "lie" and use one of these keywords for a different purpose. I.e. if you had a Geiger counter in the first column and wanted to graph its data, you could just write `pressure: 0` and it would take in the Geiger counter readings as pressure.
+
+Once you've made your changes, make sure to save them by going to `File > Save` or pressing <kbd>Cmd</kbd> + <kbd>S</kbd>.
+
+If you want, you can also remove the two examples from `customData.js` so that it's just your data. Then, your `FILE_LIST` might look something like this:
+
+![image](images/file_list.png)
+
 ### Step 5: Running the code
 Once everything is setup, you can open up your terminal, navigate to `Weather-Balloon` if you haven't already (see step 3), and run the following command:
 ```bash
@@ -90,7 +114,13 @@ Hopefully, it should look something like this:
 ![image](/images/running_the_program.png)
 
 Now, you can visit the link here: [http://127.0.0.1:3000](http://127.0.0.1:3000)
-or by holding <kbd>&#8984;</kbd> and double-clicking on the link in the terminal. This is the website!
+or by holding <kbd>Cmd</kbd> and double-clicking on the link in the terminal. This is the website!
+
+Anytime you make changes to `customData.js`, you must restart terminal and rerun the program for them to show up. You can quit the program by pressing <kbd>Cmd</kbd> + <kbd>C</kbd> while in terminal, or by restarting the terminal application. Then to restart the program, all you have to do is navigate back to the `Weather-Balloon` folder (see step 3), and then run
+```bash
+node dataAnalysis.js
+```
+again.
 
 ### Step 6: Using the website
 
@@ -104,3 +134,7 @@ At the bottom, there are three buttons which toggle various settings for the web
 
 If you have any questions, please contact me at sean.kuwamoto@gmail.com!
 ### Step 7: Further customization
+
+In the `customData.js file`, there is also a section called `EXTRA_SETTINGS`. Here, you can specify the lables and data ranges of each different type of data.
+
+NOTE: This is necessary if you want your data to graph properly. To tune the ranges to the correct sizes, I reccomend setting them to a large window (i.e. graphing your temperature from -100 deg to 100 deg) and then looking at the website to see how your data is graphed. From there, you can go back and shrink your ranges to match the high and low points of the graph.

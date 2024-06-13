@@ -31,7 +31,7 @@
 *   IMPORTANT: The list of possible terms you can use is:
 *       date, time, ms_since_last_cycle, fixed, latitude, longitude, altitude, speed, angle, 
 *       satellites, avg_thermistor, thermistor_c, gyro_x, gyro_y, gyro_z, accel_x, accel_y,
-*       accel_z, mag_x, mag_y, mag_z, live_cam, cam_data
+*       accel_z, mag_x, mag_y, mag_z, live_cam, cam_data, pressure,humidity
 *   Do not use terms beyond this or make up your own names. These names are specific, and making up your own will not do anything.
 *   
 *   3. Once all that is filled out, run the command "node dataAnalysis.js" in the terminal and then visit the
@@ -68,7 +68,7 @@ const FILE_LIST = [
             altitude: 5,
             cam_data: 6
         }
-    }
+    },
 ]
 
 /*
