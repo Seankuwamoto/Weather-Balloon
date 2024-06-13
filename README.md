@@ -5,8 +5,6 @@ A node application that allows students to process data from an MLX90640 IR came
 https://github.com/Seankuwamoto/Weather-Balloon/assets/56642599/1bc506f5-7f29-4b41-9468-55374250a190
 
 ---
-## Contact me
-For bug reports or questions, please shoot me an email at sean.kuwamoto@gmail.com. I'd be happy to spend some time helping you get your data to work!
 ## Usage instructions
 
 ### Step 1: Installing Node
@@ -145,3 +143,6 @@ If you have any questions, please contact me at sean.kuwamoto@gmail.com!
 In the `customData.js file`, there is also a section called `EXTRA_SETTINGS`. Here, you can specify the lables and data ranges of each different type of data.
 
 NOTE: This is necessary if you want your data to graph properly. To tune the ranges to the correct sizes, I reccomend setting them to a large window (i.e. graphing your temperature from -100 deg to 100 deg) and then looking at the website to see how your data is graphed. From there, you can go back and shrink your ranges to match the high and low points of the graph.
+
+## Contact me
+For bug reports or questions, please shoot me an email at sean.kuwamoto@gmail.com. I'd be happy to spend some time helping you get your data to work!
