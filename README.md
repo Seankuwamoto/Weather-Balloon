@@ -54,7 +54,7 @@ if not, run the command
 ```bash
 cd
 ```
-and you will be brought to the home directory. From there, you will want to either navigate into `Desktop` or `Documents`, depending on where you put your file. Personally, I keep my weather balloon folder on my desktop, so I run the command 
+and you will be brought to the home directory. From there, you will want to either navigate into `Desktop` or `Documents`, depending on where you put your `Weather-Balloon` folder. Personally, I keep my weather balloon folder on my desktop, so I run the command 
 ```bash
 cd Desktop
 ```
