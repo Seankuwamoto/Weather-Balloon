@@ -66,7 +66,7 @@ to move into the `Weather-Balloon` folder. To make sure that it worked, you can 
 
 ![image](/images/navigated.png)
 
-Once your in, there are **five** npm packages you need to install: `express`, `http`, `socket.io`, `fs`, and `colormap`. To install these packages, enter the following five commands into the terminal:
+Once you're in, there are **five** npm packages you need to install: `express`, `http`, `socket.io`, `fs`, and `colormap`. To install these packages, enter the following five commands into the terminal:
 ```bash
 npm install express
 ```
@@ -88,7 +88,7 @@ You should have a `.csv` file with your weather balloon data in it. Make a copy 
 
 ![image](images/customData.png)
 
-Now you should head over to customData.js. You'll need to make changes to it in order for your data to show up, and you can use the builtin Mac text editor `textEdit` or a code editor like `VSCode`.
+Now you should head over to `customData.js`. You'll need to make changes to it in order for your data to show up, and you can use the builtin Mac text editor `textEdit` or a code editor like `VSCode`.
 
 ![image](images/TextEdit.png)
 
@@ -99,6 +99,7 @@ Once open, you can take a look at the instructions inside `customData.js` and th
 To add your own data, add a comma after the end of the second example file's curly braces and create a pair of your own. In it, you must include the name of your file in a section called `filename`, a title (it can be whatever you want), and `spreadsheet_info`. In `spreadsheet_info` you will say what data from your spreadsheet you want to include and which column it can be found in. The column indices start from 0, so 0 means the first column, 1 means the second column, and so on. 
 
 Only certain keywords can be used to include columns of data:
+
  `date`, `time`, `ms_since_last_cycle`, `fixed`, `latitude`, `longitude`, `altitude`, `speed`, `angle`,`satellites`, `avg_thermistor`, `thermistor_c`, `gyro_x`, `gyro_y`, `gyro_z`, `accel_x`, `accel_y`,`accel_z`, `mag_x`, `mag_y`, `mag_z`, `live_cam`, `cam_data`, `pressure`, and `humidity`
 
 If there is a sensor that you have that is not on this list, you can contact me and I can try to change it, or you can "lie" and use one of these keywords for a different purpose. I.e. if you had a Geiger counter in the first column and wanted to graph its data, you could just write `pressure: 0` and it would take in the Geiger counter readings as pressure.
@@ -121,7 +122,7 @@ Hopefully, it should look something like this:
 Now, you can visit the link here: [http://127.0.0.1:3000](http://127.0.0.1:3000)
 or by holding <kbd>Cmd</kbd> and double-clicking on the link in the terminal. This is the website!
 
-Anytime you make changes to `customData.js`, you must restart terminal and rerun the program for them to show up. You can quit the program by pressing <kbd>Cmd</kbd> + <kbd>C</kbd> while in terminal, or by restarting the terminal application. Then to restart the program, all you have to do is navigate back to the `Weather-Balloon` folder (see step 3), and then run
+Anytime you make changes to `customData.js`, you must rerun the program for them to show up. You can quit the program by pressing <kbd>Cmd</kbd> + <kbd>C</kbd> while in terminal, or by restarting the terminal application. Then to restart the program, all you have to do is navigate back to the `Weather-Balloon` folder (see step 3), and then run
 ```bash
 node dataAnalysis.js
 ```
