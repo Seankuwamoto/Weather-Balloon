@@ -1,5 +1,7 @@
 # Weather-Balloon
 
+A node application that allows students to process data from an MLX90640 IR camera alongside various other data collected from their weather balloons. Instructions for use are below.
+
 https://github.com/Seankuwamoto/Weather-Balloon/assets/56642599/1bc506f5-7f29-4b41-9468-55374250a190
 
 ---
