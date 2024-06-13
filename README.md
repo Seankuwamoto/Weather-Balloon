@@ -10,13 +10,13 @@ For bug reports or questions, please shoot me an email at sean.kuwamoto@gmail.co
 ### Step 1: Installing Node
 This project runs on [Node](https://nodejs.org/en), a JavaScript runtime environment.
 
-Before getting started with my code here on github, you'll need to install node by clicking [this link](https://nodejs.org/en/download/package-manager) and following the instructions.
+Before getting started with my code, you'll need to install node by clicking [this link](https://nodejs.org/en/download/package-manager) and following the instructions.
 
-In case you have trouble with the instructions on Node's website, I'll also walk through the steps of installing it on a Mac here.
+In case you have trouble with the instructions on Node's website, I'll also walk through the steps of installing it on a Mac.
 
-The first step is to open up terminal on your Macbook. Terminal is an application that is automatically installed on all Macbooks, and you can acess it by pressing <kbd>Cmd</kbd> + <kbd>Space</kbd> and then searching `terminal`.
+The first step is to open up `Terminal` on your Macbook. `Terminal` is an application that is automatically installed on all Macbooks, and you can acess it by pressing <kbd>Cmd</kbd> + <kbd>Space</kbd> and then searching `terminal`.
 
-Once inside terminal, you should copy and paste the following line into the terminal and press enter:
+Once inside Terminal, you should copy and paste the following command into it:
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 ```
@@ -36,14 +36,16 @@ npm -v # should print `10.7.0`
 ```
 
 ### Step 2: Downloading the code to your computer
-At the top of this repository, you should see a green button labeled `Code`. By clicking on this, then pressing `Download ZIP`, you can download all of my code to a zip file on your computer.
+At the top of this repository, you should see a green button labeled `Code`. By clicking on this, then pressing `Download ZIP`, you can download my code to a zip file on your computer.
 
 ![image](/images/zip.png)
 
-After navigating to this zip file in your finder and double-clicking on it, it will become unzipped and create a folder in your downloads called Weather-Balloon. 
+After navigating to this zip file in your finder and double-clicking on it, it will create a folder in your downloads called Weather-Balloon. 
 
-Move this folder to wherever you would like to have it, preferably somewhere like `documents` or `desktop` so that it doesn't get lost in your downloads. Make sure to remember where you put it, you'll need that later.
+Move this folder to wherever you would like to have it, preferably somewhere like `Documents` or `Desktop` so that it doesn't get lost in your downloads. Make sure to remember where you put it, you'll need it later.
+
 ### Step 3: Downloading the needed packages
+
 To install the needed npm packages for this project, you will first need to **naviagate into the project directory** in the terminal. Right now your terminal is dealing with your whole computer, but you want to move into the project folder so that you can run files and install packages inside it. Your terminal should look something like this:
 
 ![image](/images/terminal.png)
@@ -60,7 +62,7 @@ to navigate into my Desktop. From there, I will run
 ```bash
 cd Weather-Balloon
 ```
-to move into the `Weather-Balloon` folder. To make sure that it worked, you can run the `ls` command and it should **l**is**t** all of the files in your current directory. You should see it print out things like `dataAnalysis.js` and `customData.js`.
+to move into the `Weather-Balloon` folder. To make sure that it worked, you can run the `ls` command and it should **l**is**t** all of the files in your current directory. You should see it print out things like `dataAnalysis.js` and `customData.js`. See the example below:
 
 ![image](/images/navigated.png)
 
@@ -94,10 +96,10 @@ Once open, you can take a look at the instructions inside `customData.js` and th
 
 ![image](images/yourInfo.png)
 
-To add your own data, add a comma after the end of the second example file's curly braces and create a pair of your own. In it, you must include the name of your file in a section called `filename`, a title (it can be whatever you want), and `spreadsheet_info`. Here you will say what data from your spreadsheet you want to include and which column it can be found in. The column indices start from 0, so 0 means the first column, 1 means the second column, and so on. 
+To add your own data, add a comma after the end of the second example file's curly braces and create a pair of your own. In it, you must include the name of your file in a section called `filename`, a title (it can be whatever you want), and `spreadsheet_info`. In `spreadsheet_info` you will say what data from your spreadsheet you want to include and which column it can be found in. The column indices start from 0, so 0 means the first column, 1 means the second column, and so on. 
 
 Only certain keywords can be used to include columns of data:
-> `date`, `time`, `ms_since_last_cycle`, `fixed`, `latitude`, `longitude`, `altitude`, `speed`, `angle`,`satellites`, `avg_thermistor`, `thermistor_c`, `gyro_x`, `gyro_y`, `gyro_z`, `accel_x`, `accel_y`,`accel_z`, `mag_x`, `mag_y`, `mag_z`, `live_cam`, `cam_data`, `pressure`, `humidity`
+ `date`, `time`, `ms_since_last_cycle`, `fixed`, `latitude`, `longitude`, `altitude`, `speed`, `angle`,`satellites`, `avg_thermistor`, `thermistor_c`, `gyro_x`, `gyro_y`, `gyro_z`, `accel_x`, `accel_y`,`accel_z`, `mag_x`, `mag_y`, `mag_z`, `live_cam`, `cam_data`, `pressure`, and `humidity`
 
 If there is a sensor that you have that is not on this list, you can contact me and I can try to change it, or you can "lie" and use one of these keywords for a different purpose. I.e. if you had a Geiger counter in the first column and wanted to graph its data, you could just write `pressure: 0` and it would take in the Geiger counter readings as pressure.
 
