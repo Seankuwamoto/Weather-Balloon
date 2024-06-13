@@ -183,11 +183,6 @@ let camera = function( sketch ) {
                 index++;
             }
         }
-        // sketch.stroke(255);
-        // if (dataLoaded) {
-        //     let angle = mangetometerToStuff(DATA[index].mag_x, DATA[index].mag_y, DATA[index].mag_z);
-        //     sketch.line(300, 300, 300+100*Math.cos(angle), 300+100*Math.sin(angle));
-        // }
         sketch.fill(settings.textColor + "88");
         watermark&&sketch.text("Created by Sean Kuwamoto", 320, 20);
 
@@ -400,21 +395,6 @@ let info = function( sketch ) {
             [(dataLoaded?DATA[index].mag_z:"..."), hovered==="mag_xyz"?settings.alternateColor:settings.graphColors[2]],
         ]
         dataLoaded&&cachedData[currentMode].available.includes('mag_xyz')&&drawtext(10, 289, mag);
-        // sketch.text("gyro xyz: " + (dataLoaded?DATA[index].gyro_x:"...") + " " + (dataLoaded?DATA[index].gyro_y:"...") + " " + (dataLoaded?DATA[index].gyro_z:"..."), 10, 243);
-        // sketch.fill(hovered==="accel_xyz"?settings.alternateColor:settings.textColor);
-        // sketch.text("accel xyz: " + (dataLoaded?DATA[index].accel_x:"...") + " " + (dataLoaded?DATA[index].accel_y:"...") + " " + (dataLoaded?DATA[index].accel_z:"..."), 10, 266);
-        // sketch.fill(hovered==="mag_xyz"?settings.alternateColor:settings.textColor);
-        // sketch.text("mag xyz: " + (dataLoaded?DATA[index].mag_x:"...") + " " + (dataLoaded?DATA[index].mag_y:"...") + " " + (dataLoaded?DATA[index].mag_z:"..."), 10, 288);
-
-
-
-
-        // for (let i = -settings.angleSpan; i <= -settings.angleSpan + 2 * settings.angleSpan * clamp(((dataLoaded?DATA[index].thermistor_c:0) - dataInfo.thermistor_c.range[0])/(dataInfo.thermistor_c.range[1] - dataInfo.thermistor_c.range[0])); i+= 0.05) {
-        //     sketch.fill(cmap(i/(2*settings.angleSpan) + 0.5, 1));
-        //     sketch.ellipse(80 + 60*sketch.sin(i), 400 - 60*sketch.cos(i), 20, 20);
-        // }
-        // sketch.text((dataLoaded?sketch.round(DATA[index].thermistor_c):"??") + "º C", 80, 400);
-
 
         // Graph
 
@@ -483,8 +463,6 @@ let info = function( sketch ) {
 
         
         // actual graph
-        // sketch.translate(controls.view.x, controls.view.y);
-        // sketch.scale(controls.view.zoom);
         sketch.noFill();
         
         // Zero lines
@@ -516,15 +494,6 @@ let info = function( sketch ) {
 
         }
         sketch.stroke(settings.textColor);
-        // if (currentMode !== "none") {
-        //     for (let moment of keyMoments[currentMode]) {
-        //         let momentX = hitboxes.graph[0] + hitboxes.graph[2]*inverseLerp(selectedAxes[0], moment.frame, 0);
-        //         let momentY = hitboxes.graph[1] + hitboxes.graph[3] - hitboxes.graph[3]*inverseLerp(selectedAxes[1], moment.frame, 0);
-        //         let [x, y] = [momentX, momentY]//transform(momentX, momentY);
-        //         sketch.line(hitboxes.graph[0], y, hitboxes.graph[0] + hitboxes.graph[2], y);
-        //         sketch.line(x, hitboxes.graph[1], x, hitboxes.graph[1] + hitboxes.graph[3]);
-        //     }
-        // }
         
         sketch.noStroke();
 
@@ -693,13 +662,8 @@ function updateInfo(i) {
     values = values.map(x => (typeof x === 'undefined')?cmap(0.5):x);
 
     frameSlider.value(index);
-    //incrementFrame();
-    // document.getElementById("cube-video").currentTime = (694 + 1*(3600/1.45061852762));// 1080 + (index - 5928) / 1.5;
-}
 
-// function incrementFrame() {
-//     document.getElementById("cube-video").currentTime = (694 + ((index - 988)/2827)*(3600/1.45061852762));
-// }
+}
 
 window.onload = () => {
     document.getElementById('title').addEventListener('click', () => {
@@ -772,13 +736,11 @@ window.onrecieve = (data) => {
 function lerp(dataType, time) {
     if (!dataLoaded) return 0;
     if (dataType === "time") {
-        // console.log(UTC(milis(dataInfo[dataType].range[0]) + time * (milis(dataInfo[dataType].range[1]) - milis(dataInfo[dataType].range[0]))))
         return UTC(milis(graphSettings[dataType].range[0]) + time * (milis(graphSettings[dataType].range[1]) - milis(graphSettings[dataType].range[0])));
     }
     return graphSettings[dataType].range[0] + time * (graphSettings[dataType].range[1] - graphSettings[dataType].range[0]);
 }
 function inverseLerp(dataType, frame, line) {
-    // console.log(frame > DATA.length - 1)
     if (!dataLoaded) return 0;
     if (dataType === "time") {
         return Math.min(Math.max((milis(DATA[frame][dataType]) - milis(graphSettings[dataType].range[0]))/(milis(graphSettings[dataType].range[1]) - milis(graphSettings[dataType].range[0])), 0), 1);
@@ -798,7 +760,6 @@ function detectHover(sketch, hitbox) {
 }
 
 function milis(UTC) {
-    // console.log(UTC);
     // replaces the last colon with a period
     UTC = UTC.split(":")[0] + ":" + UTC.split(":")[1].padStart(2, '0') + ":" + UTC.split(":")[2].padStart(2, '0') + "." + UTC.split(":")[3].padStart(3, '0');
     return new Date("2023-06-07T" + UTC + "Z").getTime();
@@ -818,9 +779,6 @@ function mangetometerToStuff(x, y, z) {
     if (headingDegrees < 0) {
       headingDegrees += 360;
     }
-  
-    // console.log("Heading: " + headingDegrees + " " + cardinal);
-    // return headingDegrees * (Math.PI / 180);
 }
 
 function setData(mode) {
@@ -849,9 +807,6 @@ function setData(mode) {
     console.log(cachedData[currentMode].title);
     document.getElementById('title').innerHTML = cachedData[currentMode].title;
     watermark = true;
-    // dataInfo.frame.range = [0, settings.skipGPSFrames?10700:13400];
-    // dataInfo.time.range = ["13:35:00:0", "17:20:00:0"];
-    // dataInfo.altitude.range = [0, 12000];
 
     document.getElementById('frame-slider').max = DATA.length - 1;
 
