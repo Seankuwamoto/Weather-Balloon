@@ -94,7 +94,7 @@ or by holding <kbd>&#8984;</kbd> and double-clicking on the link in the terminal
 
 ### Step 6: Using the website
 
-![video](/images/usage.mov)
+https://github.com/Seankuwamoto/Weather-Balloon/assets/56642599/1bc506f5-7f29-4b41-9468-55374250a190
 
 The website has many features, but all of them are pretty straightforward. The slider at the bottom of the graph lets you sift through your frames. You can use <kbd>Space</kbd> to play/pause the slider, and you can use <kbd>&#8592;</kbd> and <kbd>&#8594;</kbd> to go through frame by frame. If you tap the left or right arrow in quick succession, it will move you through 1/50th of your total frame count as opposed to just one frame.
 
