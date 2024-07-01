@@ -7,12 +7,12 @@ const NUM_ROWS = 0;
 // How many samples for the average upward speed
 const UPWARD_SPEED_SAMPLES = 100;
 
+// Importing user file info & settings
 const customData = require('./customData.js');
 const FILE_LIST = customData.FILE_LIST;
 const EXTRA_SETTINGS = customData.EXTRA_SETTINGS;
 const RANGE_OVERRIDES = customData.RANGE_OVERRIDES;
-
-const STARTING_MODE = 0;
+const STARTING_MODE = customData.STARTING_MODE;
 
 // Libraries
 const express = require('express');

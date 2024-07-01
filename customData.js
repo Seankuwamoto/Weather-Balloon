@@ -5,6 +5,8 @@
 *   Everything you need can be customized from here, and this file is meant to be modified by whoever
 *   is using this program. Please do not modify any other files.
 *   
+*   Please visit https://github.com/Seankuwamoto/Weather-Balloon for the most recent version
+*   of this code and a complete list of instructions.
 *
 *   FOLLOW THESE INSTRUCTIONS TO ADD YOUR OWN DATA
 *
@@ -195,8 +197,15 @@ const RANGE_OVERRIDES = [
         }
     },
 ]
+
+// If you have multiple files, you can change this so that when the website
+// loads it always starts on a specific one. 0 means the first file, 1 means
+// the second, etc.
+const STARTING_MODE = 0;
+
 module.exports = {
     FILE_LIST,
     EXTRA_SETTINGS,
     RANGE_OVERRIDES,
+    STARTING_MODE,
 }
