@@ -22,7 +22,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 ```
 This should install nvm (Node version manager) onto your computer. From here, you should restart terminal so that you can use nvm.
 
-With nvm, you can install the latest version (version 20) of node onto your computer by putting the following command in terminal:
+With nvm, you can install the latest version (currently version 20, please refer to Node's website for the latest info) of node onto your computer by putting the following command in terminal:
 ```bash
 nvm install 20
 ```
