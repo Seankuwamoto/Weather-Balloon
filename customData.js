@@ -45,7 +45,7 @@
 *   If it's past May 2026, contact me at sean.kuwamoto@gmail.com.
 */
 const FILE_LIST = [
-    // you can add multiple files in here if you have multiple different datasets you want to look through. In this example there are four.
+    // you can add multiple files in here if you have multiple different datasets you want to look through. In this example there are two.
     {
         filename: "EXAMPLE_DATA_1.CSV",
         title: "Example Data - Sean Kuwamoto",
