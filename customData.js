@@ -18,14 +18,20 @@
 *   2. Down below, add a new pair of curly braces to the list of files. In it, add the name of your file,
 *   a title (it can be whatever you want), and fill in the info for your spreadsheet. Make sure to list
 *   which column you data is in. For example, if my spreadsheet was like this: 'time,lat,long,alt' and nothing else, then
-*   my spreadsheet data info might look like this:
+*   my spreadsheet dinf might look like this:
 *   
-*   spreadsheet_data_info: {
-*       time: 0,
-*       latitude: 1,
-*       longitude: 2,
-*       altitude: 3
-*   }
+*    {
+*       filename: "example_data.csv",
+*       title: "Example",
+*       spreadsheet_info: {
+*           time: 0,
+*           latitude: 1,
+*           longitude: 2,
+*           altitude: 3
+*        }
+*    }
+*   
+*   
 *   
 *   Note how the column numbers start from 0. The time column is first, and so you put a 0 for it. Latitude it second, and so you put a 1 for it.
 *   If you put your data in starting by counting from 1 into this file, everything will be off.
@@ -36,13 +42,16 @@
 *       accel_z, mag_x, mag_y, mag_z, live_cam, cam_data, pressure,humidity
 *   Do not use terms beyond this or make up your own names. These names are specific, and making up your own will not do anything.
 *   
+*    For cam_data, use the column number to indicate the first column that your camera data starts in. Your camera data will take up many more columns,
+*    but all you need to give to the program is just the position of the first one.
+*
 *   3. Once all that is filled out, run the command "node dataAnalysis.js" in the terminal and then visit the
 *   url http://127.0.0.1:3000/ on the same computer. Enjoy!
 *
 *   4. For further customization, try playing around with EXTRA_SETTINGS and RANGE_OVERRIDES! Contact me with any questions.
 *
 *   If anything breaks, please contact me at skuwamoto25@bayschoolsf.org. 
-*   If it's past May 2026, contact me at sean.kuwamoto@gmail.com.
+*   If it's past May 2025, contact me at sean.kuwamoto@gmail.com.
 */
 const FILE_LIST = [
     // you can add multiple files in here if you have multiple different datasets you want to look through. In this example there are two.
