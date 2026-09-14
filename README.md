@@ -30,9 +30,9 @@ nvm install 20
 After this, you should be done! To check that everything is working, you can use the following two commands. The parts after the hashtags are comments, and not actually what you should type into Terminal.
 ```bash
 # verifies the right Node.js version is in the environment
-node -v # should print `v20.14.0`
+node -v # should print `v20.14.0` (may be outdated)
 # verifies the right NPM version is in the environment
-npm -v # should print `10.7.0`
+npm -v # should print `10.7.0` (may be outdated)
 ```
 
 ### Step 2: Downloading the code to your computer
