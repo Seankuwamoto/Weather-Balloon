@@ -10,24 +10,24 @@ https://github.com/Seankuwamoto/Weather-Balloon/assets/56642599/1bc506f5-7f29-4b
 ### Step 1: Installing Node
 This project runs on [Node](https://nodejs.org/en), a JavaScript runtime environment.
 
-Before getting started with my code, you'll need to install node by clicking [this link](https://nodejs.org/en/download/package-manager) and following the instructions.
+Before getting started with my code, you'll need to install Node by clicking [this link](https://nodejs.org/en/download/package-manager) and following the instructions.
 
 In case you have trouble with the instructions on Node's website, I'll also walk through the steps of installing it on a Mac.
 
-The first step is to open up `Terminal` on your Macbook. `Terminal` is an application that is automatically installed on all Macbooks, and you can acess it by pressing <kbd>Cmd</kbd> + <kbd>Space</kbd> and then searching `terminal`.
+The first step is to open up `Terminal` on your MacBook. `Terminal` is an application that is automatically installed on all MacBooks, and you can access it by pressing <kbd>Cmd</kbd> + <kbd>Space</kbd> and then searching `Terminal`.
 
-Once inside Terminal, you should copy and paste the following command into it:
+Once inside the terminal, you should copy and paste the following command into it:
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 ```
-This should install nvm (Node version manager) onto your computer. From here, you should restart terminal so that you can use nvm.
+This should install nvm (Node version manager) onto your computer. From here, you should restart the terminal so that you can use nvm.
 
-With nvm, you can install the latest version (currently version 20, please refer to Node's website for the latest info) of node onto your computer by putting the following command in terminal:
+With nvm, you can install the latest version (currently version 20, please refer to Node's website for the latest info) of Node onto your computer by putting the following command in Terminal:
 ```bash
 nvm install 20
 ```
 
-After this, you should be done! To check that everything is working, you can use the following two commands. The parts after the hashtags are comments, and not actually what you should type into terminal.
+After this, you should be done! To check that everything is working, you can use the following two commands. The parts after the hashtags are comments, and not actually what you should type into Terminal.
 ```bash
 # verifies the right Node.js version is in the environment
 node -v # should print `v20.14.0`
@@ -102,7 +102,7 @@ Only certain keywords can be used to include columns of data:
 
  `date`, `time`, `ms_since_last_cycle`, `fixed`, `latitude`, `longitude`, `altitude`, `speed`, `angle`,`satellites`, `avg_thermistor`, `thermistor_c`, `gyro_x`, `gyro_y`, `gyro_z`, `accel_x`, `accel_y`,`accel_z`, `mag_x`, `mag_y`, `mag_z`, `live_cam`, `cam_data`, `pressure`, and `humidity`
 
-If there is a sensor that you have that is not on this list, you can contact me and I can try to change it, or you can "lie" and use one of these keywords for a different purpose. I.e. if you had a Geiger counter in the first column and wanted to graph its data, you could just write `pressure: 0` and it would take in the Geiger counter readings as pressure.
+If there is a sensor that you have that is not on this list, you can contact me and I can try to change it, or you can "lie" and use one of these keywords for a different purpose. I.e., if you had a Geiger counter in the first column and wanted to graph its data, you could just write `pressure: 0` and it would take in the Geiger counter readings as pressure.
 
 Once you've made your changes, make sure to save them by going to `File > Save` or pressing <kbd>Cmd</kbd> + <kbd>S</kbd>.
 
@@ -111,7 +111,7 @@ If you want, you can also remove the two examples from `customData.js` so that i
 ![image](images/file_list.png)
 
 ### Step 5: Running the code
-Once everything is setup, you can open up your terminal, navigate to `Weather-Balloon` if you haven't already (see step 3), and run the following command:
+Once everything is set up, you can open up your terminal, navigate to `Weather-Balloon` if you haven't already (see step 3), and run the following command:
 ```bash
 node dataAnalysis.js
 ```
@@ -122,7 +122,7 @@ Hopefully, it should look something like this:
 Now, you can visit the link here: [http://127.0.0.1:3000](http://127.0.0.1:3000)
 or by holding <kbd>Cmd</kbd> and double-clicking on the link in the terminal. This is the website!
 
-Anytime you make changes to `customData.js`, you must rerun the program for them to show up. You can quit the program by pressing <kbd>Cmd</kbd> + <kbd>C</kbd> while in terminal, or by restarting the terminal application. Then to restart the program, all you have to do is navigate back to the `Weather-Balloon` folder (see step 3), and then run
+Anytime you make changes to `customData.js`, you must rerun the program for them to show up. You can quit the program by pressing <kbd>Cmd</kbd> + <kbd>C</kbd> while in the terminal, or by restarting the terminal application. Then, to restart the program, all you have to do is navigate back to the `Weather-Balloon` folder (see step 3), and then run
 ```bash
 node dataAnalysis.js
 ```
@@ -136,14 +136,14 @@ The website has many features, but all of them are pretty straightforward. The s
 
 For the graph, you can scroll up and down to zoom in and out. To change which variables are on the axes, you can click on one of the axes, then click on the variable you would like it to become. 
 
-At the bottom, there are three buttons which toggle various settings for the website. Show grid lines and scatter plot are fairly self-explanatory, and abs. temp locks the camera into coloring each frame relative to a fixed temperature scale instead of having each pixel be colored relative to the other pixels in the current frame. 
+At the bottom, there are three buttons that toggle various settings for the website. Show grid lines and scatter plot are fairly self-explanatory, and abs. temp locks the camera into coloring each frame relative to a fixed temperature scale instead of having each pixel be colored relative to the other pixels in the current frame. 
 
 If you have any questions, please contact me at sean.kuwamoto@gmail.com!
 ### Step 7: Further customization
 
-In the `customData.js file`, there is also a section called `EXTRA_SETTINGS`. Here, you can specify the lables and data ranges of each different type of data.
+In the `customData.js file`, there is also a section called `EXTRA_SETTINGS`. Here, you can specify the labels and data ranges of each different type of data.
 
-NOTE: This is necessary if you want your data to graph properly. To tune the ranges to the correct sizes, I reccomend setting them to a large window (i.e. graphing your temperature from -100 deg to 100 deg) and then looking at the website to see how your data is graphed. From there, you can go back and shrink your ranges to match the high and low points of the graph.
+NOTE: This is necessary if you want your data to graph properly. To tune the ranges to the correct sizes, I recommend setting them to a large window (i.e., graphing your temperature from -100 deg to 100 deg) and then looking at the website to see how your data is graphed. From there, you can go back and shrink your ranges to match the high and low points of the graph.
 
 ## Contact me
 For bug reports or questions, please shoot me an email at sean.kuwamoto@gmail.com. I'd be happy to spend some time helping you get your data to work!
