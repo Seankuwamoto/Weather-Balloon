@@ -3,6 +3,7 @@
 Built for The Bay School of San Francisco's *Atmospheric Science and Engineering: Launching Near-Space Weather Balloons*. Node application that allows students to process data from an MLX90640 IR camera alongside various other data collected from their weather balloons. Detailed use and installation instructions are below.
 
 https://github.com/Seankuwamoto/Weather-Balloon/assets/56642599/1bc506f5-7f29-4b41-9468-55374250a190
+
 Fig. 1
 ---
 ## Usage instructions
